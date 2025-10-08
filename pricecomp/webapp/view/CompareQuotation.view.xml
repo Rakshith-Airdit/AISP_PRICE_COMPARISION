@@ -1,0 +1,298 @@
+<mvc:View
+    controllerName="com.pricecomp.pricecomp.controller.CompareQuotation"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:f="sap.f"
+    xmlns:card="sap.f.cards"
+    xmlns:core="sap.ui.core"
+    xmlns:smartchart="sap.ui.comp.smartchart"
+    xmlns:chart="sap.suite.ui.commons"
+    xmlns:viz="sap.viz.ui5.controls"
+    displayBlock="true"
+    height="100%"
+    xmlns:layout="sap.ui.layout"
+    xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds"
+    xmlns:viz.data="sap.viz.ui5.data"
+>
+    <Page
+        enableScrolling="true"
+        showHeader="false"
+    >
+        <content>
+            <f:Card
+                width="99%"
+                height="auto"
+                class="sapUiSmallMargin"
+            >
+                <f:header>
+                    <card:Header title="Supplier Comparision" />
+                </f:header>
+                <f:content>
+                    <HBox
+                        justifyContent="Center"
+                        items='{compareQuotations>/results}'
+                    >
+                        <f:Card
+                            width="300px"
+                            id="quotationCard"
+                            class="quotationCardStyle sapUiSmallMargin"
+                        >
+                            <f:header>
+                            <HBox justifyContent="SpaceBetween">
+                                <card:Header
+                                    title="{compareQuotations>VendorName}"
+                                    subtitle="Quotation No: {compareQuotations>SupplierQuotation}"
+                                    press="onPressCard"
+                                />
+                                <Button text="Summary" icon="" class="sapUiTinyMargin" press="onSummaryButtonPress" ></Button>
+                                </HBox>
+                            </f:header>
+                            <f:content>
+                                <VBox class="contentBox sapUiSmallMargin">
+                                    <Text
+                                        text="Total Quote Value"
+                                        class="labelText"
+                                    />
+                                    <ObjectNumber
+                                        number="{compareQuotations>QuotationValue}"
+                                        unit="{compareQuotations>Currency}"
+                                        class="valueText"
+                                    />
+
+                                    <HBox class="progressBox">
+                                        <Text
+                                            text="Current RFQ Score"
+                                            class="labelText"
+                                        />
+                                        <ProgressIndicator
+                                            displayValue="{compareQuotations>TOTAL_SCORE}/{compareQuotations>MAX_POSSIBLE_SCORE}"
+                                            percentValue="{compareQuotations>TOTAL_SCORE}"
+                                            state="{
+                                            path: 'compareQuotations>PERCENTAGE_SCORE',
+                                            formatter: '.formatScoreState'
+                                        }"
+                                            class="overallScore"
+                                        />
+                                    </HBox>
+                                    <HBox class="progressBox">
+                                        <Text
+                                            text="Price Vs Lowest"
+                                            class="labelText"
+                                        />
+                                        <!-- <ProgressIndicator
+                                            displayValue="0%"
+                                            percentValue="0"
+                                            state="Success"
+                                            class=" "
+                                        /> -->
+                                        <ObjectStatus
+                                            text="{
+                                                parts: [
+                                                    {path: 'compareQuotations>PriceVsLowestDifference'},
+                                                    {path: 'compareQuotations>IsLowest'},
+                                                    {path: 'compareQuotations>IsHighest'},
+                                                    {path: 'compareQuotations>Currency'}
+                                                ],
+                                                formatter: '.formatPriceStatusCombinedText' 
+                                            }"
+                                            state="{
+                                                parts: [
+                                                    {path: 'compareQuotations>IsLowest'},
+                                                    {path: 'compareQuotations>IsHighest'}
+                                                ],
+                                                formatter: '.formatPriceStatusCombinedState'
+                                            }"
+                                            inverted="true"
+                                            class="sapUiTinyMarginTopBottom"
+                                        />
+                                    </HBox>
+                                    <!-- <HBox class="progressBox">
+                                    <Text
+                                        text="Material Count"
+                                        class="labelText"
+                                    />
+                                    <Text
+                                        text="{compareQuotations>MaterialCount}"
+                                    />
+                                </HBox> -->
+                                    <!-- <HBox class="progressBox">
+                                        <Text
+                                            text="On Time Delivery"
+                                            class="labelText"
+                                        />
+                                        <ProgressIndicator
+                                            displayValue="94%"
+                                            percentValue="94"
+                                            class=" onTimeDelivery"
+                                        />
+                                    </HBox> -->
+                                    <!-- <HBox class="progressBox">
+                                    <Text
+                                        text="Items"
+                                        class="labelText"
+                                    />
+                                    <List
+                                        items="{compareQuotations>Items}"
+                                        showSeparators="Inner"
+                                        width="100%"
+                                    >
+                                        <StandardListItem
+                                            title="{compareQuotations>MaterialDesc}"
+                                            description="Qty: {compareQuotations>Quantity} {compareQuotations>UnitOfMeasure}"
+                                            info="Price: {compareQuotations>Netpr} {compareQuotations>Currency}"
+                                            infoState="Success"
+                                        />
+                                    </List>
+                                </HBox> -->
+                                </VBox>
+                            </f:content>
+                        </f:Card>
+                    </HBox>
+                </f:content>
+            </f:Card>
+
+            <f:Card
+                width="99%"
+                height="auto"
+                class="sapUiSmallMargin"
+            >
+                <f:header>
+                    <card:Header title="Price Analysis" />
+                </f:header>
+                <f:content>
+                    <HBox width="100%">
+                        <VBox width="50%">
+                            <Panel
+                                class="panelStyle"
+                                expandable="true"
+                                expanded="true"
+                                headerText="Price Comparision"
+                            >
+                                <content>
+                                    <viz:VizFrame
+                                        id="idVizFrame"
+                                        uiConfig="{applicationSet:'fiori'}"
+                                        height='400px'
+                                        width="100%"
+                                        vizType='heatmap'
+                                        busy="{= ${priceAnalysis>/}.length === 0 }"
+                                        busyIndicatorDelay="0"
+                                    >
+                                        <viz:dataset>
+                                            <viz.data:FlattenedDataset
+                                                data="{priceAnalysis>/}"
+                                            >
+                                                <viz.data:dimensions>
+                                                    <viz.data:DimensionDefinition
+                                                        name="Supplier"
+                                                        value="{priceAnalysis>Supplier}"
+                                                    />
+                                                    <viz.data:DimensionDefinition
+                                                        name="Materials"
+                                                        value="{priceAnalysis>Material}"
+                                                    />
+                                                </viz.data:dimensions>
+                                                <viz.data:measures>
+                                                    <viz.data:MeasureDefinition
+                                                        name="Price"
+                                                        value="{priceAnalysis>Price}"
+                                                    />
+                                                </viz.data:measures>
+                                            </viz.data:FlattenedDataset>
+                                        </viz:dataset>
+
+                                        <viz:feeds>
+                                            <viz.feeds:FeedItem
+                                                uid="color"
+                                                type="Measure"
+                                                values="Price"
+                                            />
+                                            <viz.feeds:FeedItem
+                                                uid="categoryAxis"
+                                                type="Dimension"
+                                                values="Materials"
+                                            />
+                                            <viz.feeds:FeedItem
+                                                uid="categoryAxis2"
+                                                type="Dimension"
+                                                values="Supplier"
+                                            />
+                                        </viz:feeds>
+                                        <viz:dependents>
+                                            <viz:Popover id="idPopOver" />
+                                        </viz:dependents>
+                                    </viz:VizFrame>
+                                </content>
+                            </Panel>
+                        </VBox>
+
+                        <VBox width="50%">
+                            <Panel
+                                class="panelStyle"
+                                expandable="true"
+                                expanded="true"
+                                headerText="Score Comparision"
+                            >
+                                <content>
+                                    <viz:VizFrame
+                                        id="idScoreFrame"
+                                        uiConfig="{applicationSet:'fiori'}"
+                                        height='400px'
+                                        width="100%"
+                                        vizType='column'
+                                        vizProperties="{'title': {'visible': false}}"
+                                    >
+                                        <viz:dataset>
+                                            <viz.data:FlattenedDataset
+                                                data="{scoreAnalysis>/}"
+                                            >
+                                                <viz.data:dimensions>
+                                                    <viz.data:DimensionDefinition
+                                                        name="Supplier"
+                                                        value="{scoreAnalysis>Supplier}"
+                                                    />
+                                                </viz.data:dimensions>
+                                                <viz.data:measures>
+                                                    <viz.data:MeasureDefinition
+                                                        name="Score"
+                                                        value="{scoreAnalysis>Score}"
+                                                    />
+                                                </viz.data:measures>
+                                            </viz.data:FlattenedDataset>
+                                        </viz:dataset>
+
+                                        <viz:feeds>
+                                            <viz.feeds:FeedItem
+                                                uid="valueAxis"
+                                                type="Measure"
+                                                values="Score"
+                                            />
+                                            <viz.feeds:FeedItem
+                                                uid="categoryAxis"
+                                                type="Dimension"
+                                                values="Supplier"
+                                            />
+                                        </viz:feeds>
+                                        <viz:dependents>
+                                            <viz:Popover id="idScorePopOver" />
+                                        </viz:dependents>
+                                    </viz:VizFrame>
+                                </content>
+                            </Panel>
+                        </VBox>
+                    </HBox>
+                </f:content>
+            </f:Card>
+        </content>
+        <footer>
+            <Toolbar>
+                <ToolbarSpacer />
+                <Button
+                    type="Back"
+                    text="Cancel"
+                    press="_navigateBack"
+                />
+            </Toolbar>
+        </footer>
+    </Page>
+</mvc:View>

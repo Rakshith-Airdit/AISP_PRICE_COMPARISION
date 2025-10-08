@@ -1,0 +1,175 @@
+{
+  "_version": "1.76.0",
+  "sap.app": {
+    "id": "com.pricecomp.pricecomp",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "0.0.1"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "sourceTemplate": {
+      "id": "@sap/generator-fiori:basic",
+      "version": "1.18.7",
+      "toolsId": "23414bff-5402-4ab7-8819-76565c2f38c3"
+    },
+    "dataSources": {
+      "mainService": {
+        "uri": "/odata/v2/rfq/",
+        "type": "OData",
+        "settings": {
+          "annotations": [
+            "annotation"
+          ],
+          "localUri": "localService/mainService/metadata.xml",
+          "odataVersion": "2.0"
+        }
+      },
+      "annotation": {
+        "type": "ODataAnnotation",
+        "uri": "annotations/annotation.xml",
+        "settings": {
+          "localUri": "annotations/annotation.xml"
+        }
+      }
+    },
+    "crossNavigation": {
+      "inbounds": {
+        "AISP_PRICE_COMP-CREATE": {
+          "semanticObject": "AISP_PRICE_COMP",
+          "action": "CREATE",
+          "title": "{{AISP_PRICE_COMP-CREATE.flpTitle}}",
+          "signature": {
+            "parameters": {},
+            "additionalParameters": "allowed"
+          }
+        }
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "flexEnabled": false,
+    "dependencies": {
+      "minUI5Version": "1.140.0",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "com.pricecomp.pricecomp.i18n.i18n"
+        }
+      },
+      "": {
+        "dataSource": "mainService",
+        "preload": true,
+        "settings": {
+          "defaultBindingMode": "TwoWay"
+        }
+      }
+    },
+    "resources": {
+      "css": [
+        {
+          "uri": "css/style.css"
+        }
+      ]
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "controlAggregation": "pages",
+        "controlId": "app",
+        "transition": "slide",
+        "type": "View",
+        "viewType": "XML",
+        "path": "com.pricecomp.pricecomp.view",
+        "async": true
+      },
+      "routes": [
+        {
+          "name": "RouteRFQPriceList",
+          "pattern": "",
+          "target": "TargetRFQPriceList"
+        },
+        {
+          "name": "RouteCreateMaterialRFQ",
+          "pattern": "CreateMaterialRFQ",
+          "target": "TargetCreateMaterialRFQ"
+        },
+        {
+          "name": "RouteCreateServiceRFQ",
+          "pattern": "CreateServiceRFQ",
+          "target": "TargetCreateServiceRFQ"
+        },
+        {
+          "name": "RouteCompareRFQ",
+          "pattern": "CompareRFQ/{rfqNum}",
+          "target": "TargetCompareRFQ"
+        },
+        {
+          "name": "RouteCompareQuotation",
+          "pattern": "CompareQuotation/{bidders}/{rfqnumber}",
+          "target": "TargetCompareQuotation"
+        }
+      ],
+      "targets": {
+        "TargetRFQPriceList": {
+          "id": "RFQPriceList",
+          "name": "RFQPriceList"
+        },
+        "TargetCreateMaterialRFQ": {
+          "id": "CreateMaterialRFQ",
+          "name": "CreateMaterialRFQ"
+        },
+        "TargetCreateServiceRFQ": {
+          "id": "CreateServiceRFQ",
+          "name": "CreateServiceRFQ"
+        },
+        "TargetCompareRFQ": {
+          "id": "CompareRFQ",
+          "name": "CompareRFQ"
+        },
+        "TargetCompareQuotation": {
+          "id": "CompareQuotation",
+          "name": "CompareQuotation"
+        }
+      }
+    },
+    "rootView": {
+      "viewName": "com.pricecomp.pricecomp.view.App",
+      "type": "XML",
+      "id": "App",
+      "async": true
+    }
+  },
+  "sap.cloud": {
+    "public": true,
+    "service": "AISP_COMPARISION_APP"
+  }
+}

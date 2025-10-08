@@ -1,0 +1,276 @@
+<mvc:View xmlns:cards="sap.f.cards"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:layout="sap.ui.layout"
+    xmlns="sap.m" controllerName="com.pricecomp.pricecomp.controller.CompareRFQ" height="100%"
+    xmlns:l="sap.ui.layout"
+    xmlns:o="sap.uxap"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:u="sap.ui.unified"
+    xmlns:core="sap.ui.core"
+    xmlns:viz="sap.viz.ui5.controls"
+    xmlns:data="sap.viz.ui5.data"
+    xmlns:feeds="sap.viz.ui5.controls.common.feeds"
+    xmlns:card="sap.f"
+    xmlns:suite="sap.suite.ui.commons"
+    xmlns:pf="sap.suite.ui.commons"
+    xmlns:smartTable="sap.ui.comp.smarttable">
+    <Page enableScrolling="false" showHeader="false" id="previewInvoice">
+        <content>
+            <o:ObjectPageLayout id="idObjectPageLayout" showTitleInHeaderContent="true" alwaysShowContentHeader="false" preserveHeaderStateOnScroll="false" headerContentPinnable="true" toggleHeaderOnTitleClick="true" showFooter="true" isChildPage="true" upperCaseAnchorBar="false">
+                <o:headerTitle>
+                    <o:ObjectPageDynamicHeaderTitle>
+                        <o:breadcrumbs>
+                            <Breadcrumbs id="idBreadcrumbs" currentLocationText="Price Comparision">
+                                <Link text="RFQ Quotation" press="handleLinkPress" />
+                            </Breadcrumbs>
+                        </o:breadcrumbs>
+                        <o:expandedHeading>
+                            <Title text="RFQ NO- {oHeaderModel>/results/0/RfqNumber}" wrapping="true" />
+                        </o:expandedHeading>
+                        <o:actions>
+                            <o:ObjectPageHeaderActionButton text="Negotiation Tool" hideText="false" press="openNegotiationTool" />
+                        </o:actions>
+                        <o:snappedHeading>
+                            <HBox wrap="NoWrap" alignItems="Center">
+                                <Avatar src="./Images/objPageIcon.png" displaySize="S" displayShape="Square" class="sapUiTinyMarginEnd" />
+                                <VBox wrap="Wrap">
+                                    <Title text="RFQ NO- {oHeaderModel>/results/0/RfqNumber}" wrapping="true" />
+                                </VBox>
+                            </HBox>
+                        </o:snappedHeading>
+                    </o:ObjectPageDynamicHeaderTitle>
+                </o:headerTitle>
+
+                <o:sections>
+                    <o:ObjectPageSection title="Event Overview" titleUppercase="false">
+                        <o:subSections>
+                            <o:ObjectPageSubSection>
+                                <o:blocks>
+                                    <VBox width="100%">
+                                        <layout:Grid defaultSpan="L6 M6 S12" hSpacing="1" vSpacing="1">
+                                            <!-- Event Details (same height as chart) -->
+                                            <card:Card width="100%" height="22rem" class="sapUiSmallMargin">
+                                                <card:header>
+                                                    <cards:Header title="Event Details" class="eventDetailsCardHdr"/>
+                                                </card:header>
+                                                <card:content>
+                                                    <VBox width="100%" height="100%" justifyContent="SpaceAround" alignItems="Start" class="sapUiMediumMarginBeginEnd">
+                                                        <VBox width="100%" class="sapUiTinyMarginTop">
+                                                            <HBox alignItems="Center" class="sapUiSmallMarginTopBottom">
+                                                                <Label text="Event Start Date: " width="10rem" design="Bold" />
+                                                                <Text text="{path: 'oHeaderModel>/results/0/EventStartDate', formatter: '.formatDate'}" />
+                                                            </HBox>
+                                                            <HBox alignItems="Center" class="sapUiTinyMarginTopBottom">
+                                                                <Label text="Event End Date: " width="10rem" design="Bold" />
+                                                                <Text text="{path: 'oHeaderModel>/results/0/EventEndDate', formatter: '.formatDate'}" />
+                                                            </HBox>
+                                                            <HBox alignItems="Center" class="sapUiTinyMarginTopBottom">
+                                                                <Label text="Target Value: " width="10rem" design="Bold" />
+                                                                <!-- <Text text="INR 2,50,00"/> -->
+                                                                <ObjectNumber number="{oHeaderModel>/results/0/TargetValue}" unit="INR" state="Success" />
+                                                            </HBox>
+                                                            <HBox alignItems="Center" class="sapUiTinyMarginTopBottom">
+                                                                <Label text="Event Duration: " width="10rem" design="Bold" />
+                                                                <ObjectStatus inverted="true" text="{oHeaderModel>/results/0/Status}" state="{path: 'oHeaderModel>/results/0/Status', formatter: '.formatHeaderState'}" />
+                                                            </HBox>
+                                                        </VBox>
+
+                                                        <HBox width="100%" alignItems="Center" justifyContent="Center">
+                                                            <VBox class="sapUiCountdownHighlight sapUiTinyMarginEnd" alignItems="Center">
+                                                                <Text text="{oCountdownModel>/days}" class="countdownNumber" />
+                                                                <Text text="Days" class="countdownUnit" />
+                                                            </VBox>
+                                                            <VBox class="sapUiCountdownHighlight sapUiTinyMarginEnd" alignItems="Center">
+                                                                <Text text="{oCountdownModel>/hours}" class="countdownNumber" />
+                                                                <Text text="Hrs" class="countdownUnit" />
+                                                            </VBox>
+                                                            <VBox class="sapUiCountdownHighlight sapUiTinyMarginEnd" alignItems="Center">
+                                                                <Text text="{oCountdownModel>/mins}" class="countdownNumber" />
+                                                                <Text text="Mins" class="countdownUnit" />
+                                                            </VBox>
+                                                            <VBox class="sapUiCountdownHighlight" alignItems="Center">
+                                                                <Text text="{oCountdownModel>/secs}" class="countdownNumber" />
+                                                                <Text text="Secs" class="countdownUnit" />
+                                                            </VBox>
+                                                        </HBox>
+                                                    </VBox>
+                                                </card:content>
+                                            </card:Card>
+
+                                            <!-- Scheme Type Distribution (same fixed height) -->
+                                            <card:Card width="100%" height="22rem" class="sapUiSmallMargin">
+                                                <card:content>
+                                                    <suite:ChartContainer class="sapUiResponsiveContentPadding" id="chartContainer" showFullScreen="true" showPersonalization="false" autoAdjustHeight="true" contentChange="attachContentChange" title="Scheme Type Distribution">
+                                                        <suite:content>
+                                                            <suite:ChartContainerContent icon="sap-icon://line-chart" title="Line Chart">
+                                                                <suite:content>
+                                                                    <viz:VizFrame id="idDonutChart" vizType="donut" width="100%" height="100%" vizProperties="{
+                                                                            'title': {'visible': false},
+                                                                            'plotArea': {'dataLabel': {'visible': true, 'formatString': '0%'}}
+                                                                        }">
+                                                                        <!-- 'legendGroup': {'layout': {'position': 'bottom'}}, -->
+
+                                                                        <viz:dataset
+                                                                        >
+                                                                            <data:FlattenedDataset data="{oChartModel>/chartData}">
+                                                                                <data:dimensions
+                                                                                >
+                                                                                    <data:DimensionDefinition name="Scheme Type" value="{oChartModel>type}" />
+                                                                                </data:dimensions>
+                                                                                <data:measures
+                                                                                >
+                                                                                    <data:MeasureDefinition name="Count" value="{oChartModel>count}" />
+                                                                                </data:measures>
+                                                                            </data:FlattenedDataset>
+                                                                        </viz:dataset>
+                                                                        <viz:feeds
+                                                                        >
+                                                                            <feeds:FeedItem uid="size" type="Measure" values="Count" />
+                                                                            <feeds:FeedItem uid="color" type="Dimension" values="Scheme Type" />
+                                                                        </viz:feeds>
+                                                                    </viz:VizFrame>
+                                                                </suite:content>
+                                                            </suite:ChartContainerContent>
+                                                            <suite:ChartContainerContent icon="sap-icon://table-view" title="Table">
+                                                                <suite:content>
+                                                                    <Table items="{oChartModel>/supplierDetails}" width="100%">
+                                                                        <columns
+                                                                        >
+                                                                            <Column width="100px">
+                                                                                <Text text="Bidder" />
+                                                                            </Column>
+                                                                            <Column minScreenWidth="Tablet">
+                                                                                <Text text="Vendor Name" />
+                                                                            </Column>
+                                                                            <!-- hAlign="End" -->
+                                                                            <Column
+                                                                            >
+                                                                                <Text text="Vendor Email" />
+                                                                            </Column>
+                                                                            <Column width="100px">
+                                                                                <Text text="Status" />
+                                                                            </Column>
+                                                                        </columns>
+                                                                        <items>
+                                                                            <ColumnListItem
+                                                                            >
+                                                                                <cells
+                                                                                >
+                                                                                    <Text text="{oChartModel>Bidder}" />
+                                                                                    <Text text="{oChartModel>VendorName}" />
+                                                                                    <Text text="{oChartModel>VendorEmail}" />
+                                                                                    <!-- <ObjectNumber number="{ path: 'oChartModel>TotalQuotationValue'}" state="{= ${oChartModel>isLowest} ? 'Success' : (${oChartModel>isHighest} ? 'Error' : 'None')}" unit="INR" /> -->
+                                                                                    <ObjectStatus text="{oChartModel>Status}" state="Information" />
+                                                                                </cells>
+                                                                            </ColumnListItem>
+                                                                        </items>
+                                                                    </Table>
+                                                                </suite:content>
+                                                            </suite:ChartContainerContent>
+                                                        </suite:content>
+                                                    </suite:ChartContainer>
+                                                </card:content>
+                                            </card:Card>
+                                        </layout:Grid>
+
+                                        <!-- Table card (unchanged, full width) -->
+                                        <card:Card class="sapUiSmallMarginTop" width="100%">
+                                            <card:content>
+                                                <smartTable:SmartTable id="quotationTable" entitySet="RFQSuppliers" header="Quotation List" showRowCount="true" smartFilterId="smartFilterBar" persistencyKey="SmartTableHDRKey" enableExport="true" enableAutoBinding="true" tableType="ResponsiveTable" demandPopin="true" enableAutoColumnWidth="false" useVariantManagement="false" backgroundDesign="Solid" beforeRebindTable="onBeforeRebindTable" requestAtLeastFields="Bidder,SupplierQuotation,QuotationValue,Currency,TOTAL_SCORE,MaterialCount">
+                                                    <smartTable:customToolbar>
+                                                        <OverflowToolbar design="Transparent">
+                                                            <ToolbarSpacer />
+                                                            <Button type="Ghost" id='idCompare' text="Compare" press="onPressCompare" enabled="false" />
+                                                            <SearchField width="20%" placeholder="Filter suppliers" liveChange="onSearch" />
+                                                        </OverflowToolbar>
+                                                    </smartTable:customToolbar>
+                                                    <smartTable:layoutData>
+                                                        <FlexItemData growFactor="1" baseSize="0%" />
+                                                    </smartTable:layoutData>
+
+                                                    <Table id="innerTable" mode="MultiSelect" growing="true" growingThreshold="10" selectionChange="onSelectChangeRFQ" noDataText="No Data">
+                                                        <columns>
+                                                            <Column>
+                                                                <Text text="Company Logo" />
+                                                            </Column>
+                                                            <Column>
+                                                                <Text text="Supplier Number" />
+                                                            </Column>
+                                                            <Column>
+                                                                <Text text="Supplier Name" />
+                                                            </Column>
+                                                            <Column>
+                                                                <Text text="Quotation Number" />
+                                                            </Column>
+                                                            <Column hAlign="Center">
+                                                                <Text text="Quotation Value" />
+                                                            </Column>
+                                                            <Column hAlign="Center">
+                                                                <Text text="Total Score / Maximum Score" />
+                                                            </Column>
+                                                            <Column hAlign="Center">
+                                                                <Text text="Percentage Score" />
+                                                            </Column>
+                                                            <Column hAlign="Center">
+                                                                <Text text="Material Count" />
+                                                            </Column>
+                                                        </columns>
+                                                        <items>
+                                                            <ColumnListItem>
+                                                                <cells>
+                                                                    <Avatar src="{= ${COMPANY_LOGO} ? ${COMPANY_LOGO} : './Images/Industry.png' }" displaySize="S" initials="{= ${VendorName} ? ${VendorName}.substring(0, 2).toUpperCase() : 'AB' }" displayShape="Circle" class="sapUiTinyMarginEnd" />
+                                                                    <Text text="{Bidder}" />
+                                                                    <Text text="{VendorName}" />
+                                                                    <Text text="{SupplierQuotation}" />
+                                                                    <ObjectNumber number="{QuotationValue}" unit="{Currency}" />
+                                                                    <!-- <ObjectNumber number="{TOTAL_SCORE}" /> -->
+                                                                    <ObjectNumber number="{= ${TOTAL_SCORE} + ' / ' + ${MAX_POSSIBLE_SCORE} }" />
+                                                                    <ObjectNumber number="{
+                                                                            path: 'PERCENTAGE_SCORE', 
+                                                                            formatter: '.formatPercentageScore' 
+                                                                        }" unit="%" />
+                                                                    <ObjectNumber number="{MaterialCount}" />
+                                                                </cells>
+                                                            </ColumnListItem>
+                                                        </items>
+                                                    </Table>
+                                                </smartTable:SmartTable>
+                                            </card:content>
+                                        </card:Card>
+                                    </VBox>
+                                </o:blocks>
+                            </o:ObjectPageSubSection>
+                        </o:subSections>
+                    </o:ObjectPageSection>
+
+                    <o:ObjectPageSection title="Quotation Lifecycle" titleUppercase="false" visible="true">
+                        <o:subSections>
+                            <o:ObjectPageSubSection>
+                                <o:blocks>
+                                    <FlexBox alignContent="Center" justifyContent="Center" width="100%" height="100%">
+                                        <pf:ProcessFlow id="processflow1" scrollable="false" foldedCorners="true" nodePress="onNodePress" nodes="{oProcessFlowModel>/nodes}" lanes="{oProcessFlowModel>/lanes}" wheelZoomable="false">
+                                            <pf:nodes>
+                                                <pf:ProcessFlowNode laneId="{oProcessFlowModel>lane}" nodeId="{oProcessFlowModel>id}" title="{oProcessFlowModel>title}" titleAbbreviation="{oProcessFlowModel>titleAbbreviation}" children="{oProcessFlowModel>children}" state="{oProcessFlowModel>state}" stateText="{oProcessFlowModel>stateText}" texts="{oProcessFlowModel>texts}" highlighted="{oProcessFlowModel>highlighted}" focused="{oProcessFlowModel>focused}" />
+                                            </pf:nodes>
+                                            <pf:lanes>
+                                                <pf:ProcessFlowLaneHeader laneId="{oProcessFlowModel>id}" iconSrc="{oProcessFlowModel>icon}" text="{oProcessFlowModel>label}" position="{oProcessFlowModel>position}" />
+                                            </pf:lanes>
+                                        </pf:ProcessFlow>
+                                    </FlexBox>
+                                </o:blocks>
+                            </o:ObjectPageSubSection>
+                        </o:subSections>
+                    </o:ObjectPageSection>
+                </o:sections>
+
+                <o:footer>
+                    <Toolbar id="idOtbFooter">
+                        <ToolbarSpacer />
+                        <Button type="Back" text="Cancel" press="_navigateToList" />
+                        <Button type="Success" icon="sap-icon://sys-enter" text="Award" press="onRFQAward" visible="{= ${oHeaderModel>/results/0/Status} !== 'Completed' }" />
+                    </Toolbar>
+                </o:footer>
+            </o:ObjectPageLayout>
+        </content>
+    </Page>
+</mvc:View>

@@ -1,0 +1,17 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+>
+    <Menu>
+        <MenuItem
+            text="Create RFQ Material"
+            icon="sap-icon://add-product"
+            press="onPressCreateRFQMaterial"
+        />
+        <MenuItem
+            text="Create RFQ Service"
+            icon="sap-icon://crm-service-manager"
+            press="onPressCreateRFQService"
+        />
+    </Menu>
+</core:FragmentDefinition>

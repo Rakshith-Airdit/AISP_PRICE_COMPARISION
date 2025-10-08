@@ -1,0 +1,117 @@
+<c:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
+>
+    <Popover
+        id="toolPopover"
+        placement="Left"
+        contentHeight="400px"
+        contentWidth="450px"
+        showHeader="false"
+        ariaLabelledBy="master-title"
+    >
+        <NavContainer id="idNavContainer">
+            <Page
+                id="master"
+                title="Materials"
+            >
+                <ScrollContainer>
+                    <content>
+                        <List items="{rfqData>/Materials}">
+                            <StandardListItem
+                                type="Navigation"
+                                press="onStandardListItemPress"
+                                title="{rfqData>MaterialDesc}"
+                            />
+                        </List>
+                    </content>
+                </ScrollContainer>
+            </Page>
+            <Page
+                id="chatPageID"
+                title="Negotiation Tool"
+                showNavButton="true"
+                navButtonPress="onGoBackPress"
+            >
+                <List items="{toolTipModel>/Negotiation}">
+                    <CustomListItem>
+                        <content>
+                            <HBox
+                                alignItems="End"
+                                direction="RowReverse"
+                            >
+                                <Text
+                                    class="sapUiTinyMarginEnd"
+                                    text="Quoted Price : {toolTipModel>quotationPrice} Rs"
+                                />
+                            </HBox>
+                            <HBox class="sapUiTinyMarginTop">
+                                <Avatar badgeIcon="sap-icon://supplier" />
+                                <Text text="{toolTipModel>Bidder}" />
+                                <VBox>
+                                    <Button
+                                        id="idNegotiateButton"
+                                        class="sapUiMediumMarginBegin sapUiTinyMarginTop"
+                                        text="Negotiate"
+                                        type="Emphasized"
+                                        press="onNegotiateButtonPress"
+                                        visible="true"
+                                    />
+                                    <Button
+                                        id="idExpectedPriceButton"
+                                        class="sapUiTinyMarginBegin"
+                                        text="Expected Price"
+                                        press="onExpectedPriceButtonPress"
+                                        visible="false"
+                                        width="160px"
+                                    />
+                                    <Button
+                                        id="idBestOfferButton"
+                                        class="sapUiTinyMarginBegin"
+                                        text="Best Offer"
+                                        press="onBestOfferButtonPress"
+                                        visible="false"
+                                        width="160px"
+                                    />
+                                    <Text
+                                        text="Seller's best offer is {toolTipModel>bestOffer}"
+                                        class="sapUiTinyMarginBegin sapUiTinyMarginTop"
+                                        visible="false"
+                                    />
+                                    <HBox>
+                                        <Button
+                                            id="idAcceptButton"
+                                            class="sapUiTinyMarginBegin sapUiTinyMarginTop"
+                                            text="Accept"
+                                            type="Accept"
+                                            visible="false"
+                                            press="onAcceptButtonPress"
+                                        />
+                                        <Button
+                                            id="idRejectButton"
+                                            type="Reject"
+                                            text="Reject"
+                                            class="sapUiTinyMarginBegin sapUiTinyMarginTop"
+                                            visible="false"
+                                            press="onRejectButtonPress"
+                                        />
+                                    </HBox>
+                                </VBox>
+                            </HBox>
+                        </content>
+                    </CustomListItem>
+                </List>
+            </Page>
+        </NavContainer>
+        <footer>
+            <Toolbar>
+                <content>
+                    <Button
+                        text="Close"
+                        press="closePopover"
+                    />
+                </content>
+            </Toolbar>
+        </footer>
+    </Popover>
+</c:FragmentDefinition>

@@ -1,0 +1,178 @@
+<mvc:View xmlns:f="sap.f"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns:m="sap.m"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:u="sap.ui.unified"
+    xmlns="sap.uxap"
+    xmlns:smartTable="sap.ui.comp.smarttable"
+    xmlns:smartField="sap.ui.comp.smartfield"
+    xmlns:l="sap.ui.layout" controllerName="com.pricecomp.pricecomp.controller.CreateMaterialRFQ" displayBlock="true">
+    <ObjectPageLayout id="ObjectPageLayout" showTitleInHeaderContent="true" alwaysShowContentHeader="false" preserveHeaderStateOnScroll="false" headerContentPinnable="true" toggleHeaderOnTitleClick="true" showFooter="true" isChildPage="true" upperCaseAnchorBar="false">
+        <headerTitle>
+            <ObjectPageDynamicHeaderTitle>
+                <breadcrumbs>
+                    <m:Breadcrumbs id="breadcrumbsId" currentLocationText="Create Material RFQ">
+                        <m:Link text="RFQ Quotation" press="handleLinkPress" />
+                    </m:Breadcrumbs>
+                </breadcrumbs>
+                <expandedHeading>
+                    <m:Title text="RFQ Number: " wrapping="true" />
+                </expandedHeading>
+                <snappedHeading>
+                    <m:HBox wrap="NoWrap" alignItems="Center">
+                        <m:Avatar src="./Images/objPageIcon.png" displaySize="S" displayShape="Square" class="sapUiTinyMarginEnd" />
+                        <m:VBox wrap="Wrap">
+                            <m:Title text="RFQ NO: " wrapping="true" />
+                        </m:VBox>
+                    </m:HBox>
+                </snappedHeading>
+            </ObjectPageDynamicHeaderTitle>
+        </headerTitle>
+
+        <sections>
+            <!-- Event Details -->
+            <ObjectPageSection title="Event Details" titleUppercase="false">
+                <subSections>
+                    <ObjectPageSubSection>
+                        <blocks>
+                            <m:VBox width="100%" class="sapUiTinyMargin">
+                                <form:SimpleForm id="idRFQBasicDetails" editable="true" layout="ColumnLayout" columnsM="1" columnsL="2" columnsXL="2">
+                                    <form:content>
+                                        <core:Title text="Basic Details" />
+
+                                        <m:Label text="RFQ Project Name" />
+                                        <m:Input id="idRFQProjectNameInput" value="{projectName}" placeholder="Project Name" required="true" />
+
+                                        <m:Label text="Reference" />
+                                        <m:Input id="idRFQReferenceInput" value="{reference}" placeholder="Reference" required="true" />
+
+                                        <m:Label text="Quotation Deadline" />
+                                        <m:DatePicker id="idRFQQuotationDeadlineInput" value="{quotationDeadline}" placeholder="Deadline Date" required="true" displayFormat="yyyy-MM-dd" valueFormat="yyyy-MM-dd" />
+
+                                        <m:Label text="Currency" />
+                                        <smartField:SmartField id="idCurrency" placeholder="Currency" tooltip="Currency" value="{Waers}" textInEditModeSource="ValueList" editable="true" />
+
+                                        <m:Label text="Payment Terms" />
+                                        <smartField:SmartField id="idPaymentTerms" placeholder="Payment Terms" tooltip="Payment Terms" value="{Zterm}" textInEditModeSource="ValueList" editable="true" />
+
+                                        <m:Label text="Inco Terms" />
+                                        <smartField:SmartField id="idIncoTerms" placeholder="Inco Terms" tooltip="Inco Terms" value="{Inco1}" textInEditModeSource="ValueList" editable="true" />
+
+                                        <core:Title text="From Details" />
+
+                                        <m:Label text="Company Code" />
+                                        <smartField:SmartField id="idCompanyCode" placeholder="Company Code" tooltip="Company Code" value="{CompanyCode}" textInEditModeSource="ValueList" editable="true" />
+
+                                        <m:Label text="Purchase Org" />
+                                        <smartField:SmartField id="idPurchaseOrg" placeholder="Purchase Organization" tooltip="Purchase Organization" value="{Ekorg}" textInEditModeSource="ValueList" editable="true" />
+
+                                        <m:Label text="Purchase Group" />
+                                        <smartField:SmartField id="idPurchaseGroup" placeholder="Purchase Group" tooltip="Purchase Group" value="{Ekgrp}" textInEditModeSource="ValueList" editable="true" />
+                                    </form:content>
+                                </form:SimpleForm>
+                            </m:VBox>
+                        </blocks>
+                    </ObjectPageSubSection>
+                </subSections>
+            </ObjectPageSection>
+
+            <!-- Item Details -->
+            <ObjectPageSection title="Item Details" titleUppercase="false">
+                <subSections>
+                    <ObjectPageSubSection>
+                        <blocks>
+                            <m:VBox width="100%" class="sapUiTinyMargin">
+                                <m:Table id="idRFQItemsTable" inset="false" growing="true" growingThreshold="10" mode="MultiSelect"
+                                    xmlns:smartfield="sap.ui.comp.smartfield">
+                                    <m:headerToolbar>
+                                        <m:Toolbar>
+                                            <m:Title text="List of Items" level="H4" />
+                                            <m:ToolbarSpacer />
+                                            <m:Button text="Add Item" type="Emphasized" press="onAddItem" />
+                                            <m:Button text="Delete Item" type="Reject" press="onDeleteItem" />
+                                        </m:Toolbar>
+                                    </m:headerToolbar>
+                                    <m:columns>
+                                        <m:Column>
+                                            <m:Text text="Item No" />
+                                        </m:Column>
+                                        <m:Column>
+                                            <m:Text text="Material Description" />
+                                        </m:Column>
+                                        <m:Column>
+                                            <m:Text text="Material Group" />
+                                        </m:Column>
+                                        <m:Column>
+                                            <m:Text text="Plant" />
+                                        </m:Column>
+                                        <m:Column>
+                                            <m:Text text="Quantity" />
+                                        </m:Column>
+                                        <m:Column>
+                                            <m:Text text="UOM" />
+                                        </m:Column>
+                                        <m:Column>
+                                            <m:Text text="Delivery Date" />
+                                        </m:Column>
+                                    </m:columns>
+                                </m:Table>
+                            </m:VBox>
+                        </blocks>
+                    </ObjectPageSubSection>
+                </subSections>
+            </ObjectPageSection>
+
+            <!-- Supplier Details -->
+            <ObjectPageSection title="Suppliers" titleUppercase="false">
+                <subSections>
+                    <ObjectPageSubSection>
+                        <blocks>
+                            <m:VBox width="100%" class="sapUiSmallMargin">
+                                <m:Table id="suppliersTable" inset="false" growing="true" growingThreshold="10" mode="MultiSelect">
+                                    <m:headerToolbar>
+                                        <m:Toolbar>
+                                            <m:Title text="List of Suppliers" level="H4" />
+                                            <m:ToolbarSpacer />
+                                            <m:Button text="Add Supplier" type="Emphasized" press="onAddSupplier" />
+                                            <m:Button text="Delete Supplier" type="Reject" press="onDeleteSupplier" />
+                                        </m:Toolbar>
+                                    </m:headerToolbar>
+                                    <m:columns>
+                                        <m:Column>
+                                            <m:Text text="Supplier Code" />
+                                        </m:Column>
+                                        <m:Column>
+                                            <m:Text text="Supplier Name" />
+                                        </m:Column>
+                                    </m:columns>
+                                </m:Table>
+                            </m:VBox>
+                        </blocks>
+                    </ObjectPageSubSection>
+                </subSections>
+            </ObjectPageSection>
+
+            <!-- Description -->
+            <ObjectPageSection title="Detailed Description" titleUppercase="false">
+                <subSections>
+                    <ObjectPageSubSection>
+                        <blocks>
+                            <m:VBox width="100%" class="sapUiTinyMargin">
+                                <m:TextArea id="idDetailedDesc" width="100%" rows="5" placeholder="Description" required="true" />
+                            </m:VBox>
+                        </blocks>
+                    </ObjectPageSubSection>
+                </subSections>
+            </ObjectPageSection>
+        </sections>
+
+        <footer>
+            <m:Toolbar id="otbFooter">
+                <m:ToolbarSpacer />
+                <m:Button type="Back" text="Cancel" press="_navigateToList" />
+                <m:Button text="Submit Quotation" type="Success" press=".onSubmitRFQ" />
+            </m:Toolbar>
+        </footer>
+    </ObjectPageLayout>
+</mvc:View>

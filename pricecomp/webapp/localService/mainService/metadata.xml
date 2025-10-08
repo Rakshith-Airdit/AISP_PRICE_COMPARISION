@@ -1,0 +1,664 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Capabilities.V1.xml" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Alias="Capabilities" Namespace="Org.OData.Capabilities.V1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Validation.V1.xml" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Alias="Validation" Namespace="Org.OData.Validation.V1"/>
+    </edmx:Reference>
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="RFQService" xmlns="http://schemas.microsoft.com/ado/2008/09/edm" sap:Label="RFQ Management Service" sap:QuickInfo="Service for managing Request for Quotation processes, including RFQ creation, supplier management, and workflow tracking">
+            <EntityContainer Name="EntityContainer" m:IsDefaultEntityContainer="true">
+                <EntitySet Name="RFQHeaders" EntityType="RFQService.RFQHeaders"/>
+                <EntitySet Name="RFQItems" EntityType="RFQService.RFQItems"/>
+                <EntitySet Name="SAP__Currencies" EntityType="RFQService.SAP__Currencies"/>
+                <EntitySet Name="SAP__UnitsOfMeasure" EntityType="RFQService.SAP__UnitsOfMeasure"/>
+                <EntitySet Name="ZC_AISP_COMPANYCODE_VH" EntityType="RFQService.ZC_AISP_COMPANYCODE_VH" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:label="Valuehelp for Company code"/>
+                <EntitySet Name="ZC_AISP_CURRENCY_VH" EntityType="RFQService.ZC_AISP_CURRENCY_VH" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:label="Currency"/>
+                <EntitySet Name="ZC_AISP_MATERIALDETAILS_VH" EntityType="RFQService.ZC_AISP_MATERIALDETAILS_VH" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:label="Valuehelp for Material details"/>
+                <EntitySet Name="ZC_AISP_INCOTERMS_VH" EntityType="RFQService.ZC_AISP_INCOTERMS_VH" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:label="Incoterms Valuehelp"/>
+                <EntitySet Name="ZC_AISP_MATERIALGROUP_VH" EntityType="RFQService.ZC_AISP_MATERIALGROUP_VH" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:label="Valuehelp for Material Group"/>
+                <EntitySet Name="ZC_AISP_PAYMENTTERMS_VH" EntityType="RFQService.ZC_AISP_PAYMENTTERMS_VH" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:label="Payment Terms"/>
+                <EntitySet Name="ZC_AISP_PLANT_VH" EntityType="RFQService.ZC_AISP_PLANT_VH" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:label="Valuehelp for Plant"/>
+                <EntitySet Name="ZC_AISP_PURCHASEGROUP_VH" EntityType="RFQService.ZC_AISP_PURCHASEGROUP_VH" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:label="Valuehelp for Purchase Group"/>
+                <EntitySet Name="ZC_AISP_PURCHASEORG_VH" EntityType="RFQService.ZC_AISP_PURCHASEORG_VH" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:label="Valuehelp for Purchase Organization"/>
+                <EntitySet Name="ZC_AISP_VENDORDETAILS_VH" EntityType="RFQService.ZC_AISP_VENDORDETAILS_VH" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:label="Valuehelp for Supplier Details"/>
+                <EntitySet Name="Currencies_VH" EntityType="RFQService.Currencies_VH"/>
+                <EntitySet Name="CompanyCodes_VH" EntityType="RFQService.CompanyCodes_VH"/>
+                <EntitySet Name="Status_VH" EntityType="RFQService.Status_VH"/>
+                <EntitySet Name="SupplierStatusDistribution" EntityType="RFQService.SupplierStatusDistribution"/>
+                <EntitySet Name="ZC_RFQBasicDetails" EntityType="RFQService.ZC_RFQBasicDetails"/>
+                <EntitySet Name="ZC_RFQItemDetails" EntityType="RFQService.ZC_RFQItemDetails"/>
+                <EntitySet Name="ZC_RFQSupplierDetails" EntityType="RFQService.ZC_RFQSupplierDetails"/>
+                <EntitySet Name="RFQProcessFlows" EntityType="RFQService.RFQProcessFlows"/>
+                <EntitySet Name="RFQSuppliers" EntityType="RFQService.RFQSuppliers"/>
+                <EntitySet Name="RFQCreationLogs" EntityType="RFQService.RFQCreationLogs"/>
+                <FunctionImport Name="createRFQ" ReturnType="RFQService.return_RFQService_createRFQ" m:HttpMethod="POST" sap:Label="Create RFQ" sap:QuickInfo="Action to create a new Request for Quotation">
+                    <Parameter Name="RFQProjectName" Type="Edm.String" Mode="In" sap:Label="RFQ Project Name" sap:QuickInfo="Name of the RFQ project" Nullable="true"/>
+                    <Parameter Name="ReferenceInput" Type="Edm.String" Mode="In" sap:Label="Reference Input" sap:QuickInfo="Reference information" Nullable="true"/>
+                    <Parameter Name="QuotationDeadline" Type="Edm.DateTime" Mode="In" sap:Label="Quotation Deadline" sap:QuickInfo="Deadline for quotation submission" sap:display-format="Date" Nullable="true"/>
+                    <Parameter Name="CurrencyCode" Type="Edm.String" Mode="In" sap:Label="Currency Code" sap:QuickInfo="Currency for the RFQ" Nullable="true"/>
+                    <Parameter Name="PaymentTermCode" Type="Edm.String" Mode="In" sap:Label="Payment Term Code" sap:QuickInfo="Payment terms code" Nullable="true"/>
+                    <Parameter Name="IncoTermCode" Type="Edm.String" Mode="In" sap:Label="Incoterm Code" sap:QuickInfo="Incoterms code" Nullable="true"/>
+                    <Parameter Name="CompanyCode" Type="Edm.String" Mode="In" sap:Label="Company Code" sap:QuickInfo="Company identifier" Nullable="true"/>
+                    <Parameter Name="PurchaseOrgCode" Type="Edm.String" Mode="In" sap:Label="Purchase Org Code" sap:QuickInfo="Purchasing organization code" Nullable="true"/>
+                    <Parameter Name="PurchaseGroupCode" Type="Edm.String" Mode="In" sap:Label="Purchase Group Code" sap:QuickInfo="Purchasing group code" Nullable="true"/>
+                    <Parameter Name="Description" Type="Edm.String" Mode="In" sap:Label="Description" sap:QuickInfo="Additional RFQ description" Nullable="true"/>
+                    <Parameter Name="RFQType" Type="Edm.String" Mode="In" sap:Label="RFQ Type" sap:QuickInfo="Type of RFQ (Material/Service)" Nullable="true"/>
+                    <Parameter Name="RFQToItem" Type="Collection(RFQService.RFQItemsData)" Nullable="false" Mode="In" sap:Label="RFQ Items" sap:QuickInfo="Array of RFQ line items"/>
+                    <Parameter Name="RFQToSupplier" Type="Collection(RFQService.RFQSuppliersData)" Nullable="false" Mode="In" sap:Label="RFQ Suppliers" sap:QuickInfo="Array of RFQ suppliers"/>
+                </FunctionImport>
+                <FunctionImport Name="AwardorRejectRFQ" ReturnType="Edm.String" m:HttpMethod="POST" sap:Label="Award or Reject RFQ" sap:QuickInfo="Action to award or reject an RFQ bid">
+                    <Parameter Name="RfqNumber" Type="Edm.String" Mode="In" sap:Label="RFQ Number" sap:QuickInfo="RFQ identifier" Nullable="true"/>
+                    <Parameter Name="Bidder" Type="Edm.String" Mode="In" sap:Label="Bidder" sap:QuickInfo="Supplier bidder code" Nullable="true"/>
+                    <Parameter Name="SupplierQuotation" Type="Edm.String" Mode="In" sap:Label="Quotation Number" sap:QuickInfo="Quotation Number for awarded RFQ" Nullable="true"/>
+                    <Parameter Name="NewStatus" Type="Edm.String" Mode="In" sap:Label="New Status" sap:QuickInfo="New status for the RFQ" Nullable="true"/>
+                    <Parameter Name="Remarks" Type="Edm.String" Mode="In" sap:Label="Remarks" sap:QuickInfo="Additional comments for status change" Nullable="true"/>
+                </FunctionImport>
+            </EntityContainer>
+            <EntityType Name="RFQHeaders" sap:Label="RFQ Headers" sap:QuickInfo="Main header information for RFQ price comparison">
+                <Key>
+                    <PropertyRef Name="RfqNumber"/>
+                </Key>
+                <Property Name="RfqNumber" Type="Edm.String" Nullable="false" sap:Label="RFQ Number" sap:QuickInfo="Unique RFQ identifier"/>
+                <Property Name="CompanyCode" Type="Edm.String" MaxLength="4" sap:Label="Company Code" sap:QuickInfo="Company code"/>
+                <Property Name="DocumentDate" Type="Edm.DateTime" sap:Label="Document Date" sap:QuickInfo="Document creation date" sap:display-format="Date"/>
+                <Property Name="EventEndDate" Type="Edm.DateTime" sap:Label="Deadline Date" sap:QuickInfo="Submission deadline" sap:display-format="Date"/>
+                <Property Name="EventStartDate" Type="Edm.DateTime" sap:Label="Published Date" sap:QuickInfo="Publication date" sap:display-format="Date"/>
+                <Property Name="CreatedBy" Type="Edm.String" MaxLength="20" sap:Label="Created By" sap:QuickInfo="Creator user ID"/>
+                <Property Name="TargetValue" Type="Edm.Decimal" Precision="15" Scale="2" sap:Label="Target Value" sap:QuickInfo="Budget target value"/>
+                <Property Name="ReceivedQuotations" Type="Edm.Int32" sap:Label="Recieved Quotations" sap:QuickInfo="Total Quotations Recieved"/>
+                <Property Name="hasAwardedQuotation" Type="Edm.Boolean" sap:Label="Quotations Awarded Status" sap:QuickInfo="Quotations Awarded Status"/>
+                <Property Name="CREATED_ON" Type="Edm.DateTimeOffset" Precision="7" sap:Label="Created On" sap:QuickInfo="Record creation timestamp"/>
+                <Property Name="Status" Type="Edm.String" sap:Label="Quotation Status" sap:QuickInfo="Status of Quotation"/>
+                <Property Name="TimeRemaining" Type="Edm.String" sap:Label="Created On" sap:QuickInfo="Record creation timestamp"/>
+                <Property Name="LAST_UPDATED_ON" Type="Edm.DateTimeOffset" Precision="7" sap:Label="Last Updated On" sap:QuickInfo="Last update timestamp"/>
+            </EntityType>
+            <EntityType Name="RFQItems" sap:Label="RFQ Items" sap:QuickInfo="Line items for RFQ price comparison">
+                <Key>
+                    <PropertyRef Name="ItemNumber"/>
+                    <PropertyRef Name="RfqNumber"/>
+                    <PropertyRef Name="Bidder"/>
+                </Key>
+                <Property Name="ItemNumber" Type="Edm.String" MaxLength="10" Nullable="false"/>
+                <Property Name="RfqNumber" Type="Edm.String" MaxLength="20" Nullable="false"/>
+                <Property Name="Bidder" Type="Edm.String" MaxLength="20" Nullable="false"/>
+                <Property Name="QuotationValue" Type="Edm.String"/>
+                <Property Name="SupplierQuotation" Type="Edm.String"/>
+                <Property Name="MaterialNo" Type="Edm.String" MaxLength="50"/>
+                <Property Name="MaterialDesc" Type="Edm.String" MaxLength="255"/>
+                <Property Name="Plant" Type="Edm.String" MaxLength="10"/>
+                <Property Name="PlantAddress" Type="Edm.String" MaxLength="255"/>
+                <Property Name="Quantity" Type="Edm.Int32"/>
+                <Property Name="UnitOfMeasure" Type="Edm.String" MaxLength="10"/>
+                <Property Name="Netpr" Type="Edm.Int32"/>
+                <Property Name="Netwr" Type="Edm.Int32"/>
+                <Property Name="TOTAL_PRICE" Type="Edm.Int32"/>
+                <Property Name="TOTAL_SCORE" Type="Edm.Int32"/>
+                <Property Name="Currency" Type="Edm.String" MaxLength="5"/>
+                <Property Name="LotType" Type="Edm.String" MaxLength="50"/>
+                <Property Name="CREATED_ON" Type="Edm.DateTimeOffset"/>
+                <Property Name="LAST_UPDATED_ON" Type="Edm.DateTimeOffset"/>
+                <Property Name="DeliveryDate" Type="Edm.DateTime" sap:display-format="Date"/>
+                <Property Name="ExpectedDeliveryDate" Type="Edm.DateTime" sap:display-format="Date"/>
+            </EntityType>
+            <EntityType Name="SAP__Currencies" sap:Label="Currencies" sap:QuickInfo="Available currency codes and information" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="CurrencyCode"/>
+                </Key>
+                <Property Name="CurrencyCode" Type="Edm.String" MaxLength="5" Nullable="false" sap:Label="Currency Code" sap:QuickInfo="Currency identifier code" sap:label="Currency" sap:semantics="currency-code"/>
+                <Property Name="ISOCode" Type="Edm.String" MaxLength="3" Nullable="false" sap:Label="ISO Code" sap:QuickInfo="International standard currency code" sap:label="ISO code"/>
+                <Property Name="Text" Type="Edm.String" MaxLength="15" Nullable="false" sap:Label="Currency Text" sap:QuickInfo="Description of the currency" sap:label="Short text"/>
+                <Property Name="DecimalPlaces" Type="Edm.Byte" Nullable="false" sap:Label="Decimal Places" sap:QuickInfo="Number of decimal places for the currency" sap:label="Decimals"/>
+            </EntityType>
+            <EntityType Name="SAP__UnitsOfMeasure" sap:Label="Units of Measure" sap:QuickInfo="Available measurement units and codes" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="UnitCode"/>
+                </Key>
+                <Property Name="UnitCode" Type="Edm.String" MaxLength="3" Nullable="false" sap:Label="Unit Code" sap:QuickInfo="Unit of measure code" sap:label="Internal UoM" sap:semantics="unit-of-measure"/>
+                <Property Name="ISOCode" Type="Edm.String" MaxLength="3" Nullable="false" sap:Label="ISO Code" sap:QuickInfo="International standard unit code" sap:label="ISO code"/>
+                <Property Name="ExternalCode" Type="Edm.String" MaxLength="3" Nullable="false" sap:Label="External Code" sap:QuickInfo="External reference code for the unit" sap:label="Commercial"/>
+                <Property Name="Text" Type="Edm.String" MaxLength="30" Nullable="false" sap:Label="Unit Text" sap:QuickInfo="Description of the unit" sap:label="Measurement Unit Txt"/>
+                <Property Name="DecimalPlaces" Type="Edm.Int32" sap:Label="Decimal Places" sap:QuickInfo="Number of decimal places for the unit" sap:label="Decimal Places"/>
+            </EntityType>
+            <EntityType Name="ZC_AISP_COMPANYCODE_VH" sap:Label="Company Code Value Help" sap:QuickInfo="Company codes available for RFQ creation" sap:content-version="1" sap:label="Valuehelp for Company code">
+                <Key>
+                    <PropertyRef Name="CompanyCode"/>
+                </Key>
+                <Property Name="CompanyCode" Type="Edm.String" MaxLength="4" Nullable="false" sap:Label="Company Code" sap:QuickInfo="Company identifier code" sap:display-format="UpperCase" sap:label="Company Code"/>
+                <Property Name="Description" Type="Edm.String" MaxLength="25" sap:Label="Description" sap:QuickInfo="Company name or description" sap:label="Company Name" sap:quickinfo="Name of Company Code or Company"/>
+            </EntityType>
+            <EntityType Name="ZC_AISP_CURRENCY_VH" sap:Label="Currency Value Help" sap:QuickInfo="Currency codes available for RFQ" sap:content-version="1" sap:label="Currency">
+                <Key>
+                    <PropertyRef Name="Waers"/>
+                </Key>
+                <Property Name="Waers" Type="Edm.String" MaxLength="5" Nullable="false" sap:Label="Currency Code" sap:QuickInfo="Currency identifier" sap:label="Currency" sap:quickinfo="Currency Key" sap:semantics="currency-code"/>
+                <Property Name="Ltext" Type="Edm.String" MaxLength="40" sap:Label="Long Text" sap:QuickInfo="Currency description" sap:label="Long Text"/>
+            </EntityType>
+            <EntityType Name="ZC_AISP_MATERIALDETAILS_VH" sap:Label="Material Details Value Help" sap:QuickInfo="Material information for RFQ items" sap:content-version="1" sap:label="Valuehelp for Material details">
+                <Key>
+                    <PropertyRef Name="Matnr"/>
+                </Key>
+                <Property Name="Matnr" Type="Edm.String" MaxLength="18" Nullable="false" sap:Label="Material Number" sap:QuickInfo="Material identifier code" sap:display-format="UpperCase" sap:label="Material" sap:quickinfo="Material Number"/>
+                <Property Name="Maktx" Type="Edm.String" MaxLength="40" sap:Label="Material Description" sap:QuickInfo="Short material description" sap:label="Material Description"/>
+                <Property Name="MaterialGroup" Type="Edm.String" MaxLength="9" sap:Label="Material Group" sap:QuickInfo="Short material group" sap:display-format="UpperCase" sap:label="Material Group"/>
+                <Property Name="UnitOfMeasure" Type="Edm.String" MaxLength="6" sap:Label="Unit of Measure" sap:QuickInfo="Measurement unit for the material" sap:label="Technical" sap:quickinfo="External Unit of Measurement in Technical Format (6-Char.)"/>
+                <Property Name="Description" Type="Edm.String" MaxLength="30" sap:Label="Description" sap:QuickInfo="Detailed material description" sap:label="Measurement Unit Txt" sap:quickinfo="Unit of Measurement Text (Maximum 30 Characters)"/>
+            </EntityType>
+            <EntityType Name="ZC_AISP_INCOTERMS_VH" sap:Label="Incoterms Value Help" sap:QuickInfo="Available incoterms for RFQ" sap:content-version="1" sap:label="Incoterms Valuehelp">
+                <Key>
+                    <PropertyRef Name="Inco1"/>
+                </Key>
+                <Property Name="Inco1" Type="Edm.String" MaxLength="3" Nullable="false" sap:Label="Incoterm Code" sap:QuickInfo="Incoterm identifier code" sap:display-format="UpperCase" sap:label="Incoterms" sap:quickinfo="Incoterms (Part 1)"/>
+                <Property Name="Bezei" Type="Edm.String" MaxLength="30" sap:Label="Incoterm Description" sap:QuickInfo="Incoterm description text" sap:label="Description"/>
+            </EntityType>
+            <EntityType Name="ZC_AISP_MATERIALGROUP_VH" sap:Label="Material Group Value Help" sap:QuickInfo="Material group classifications" sap:content-version="1" sap:label="Valuehelp for Material Group">
+                <Key>
+                    <PropertyRef Name="Matkl"/>
+                </Key>
+                <Property Name="Matkl" Type="Edm.String" MaxLength="9" Nullable="false" sap:Label="Material Group" sap:QuickInfo="Material group code" sap:display-format="UpperCase" sap:label="Material Group"/>
+                <Property Name="Wgbez" Type="Edm.String" MaxLength="20" sap:Label="Group Description" sap:QuickInfo="Material group description" sap:label="Material Group Desc." sap:quickinfo="Material Group Description"/>
+            </EntityType>
+            <EntityType Name="ZC_AISP_PAYMENTTERMS_VH" sap:Label="Payment Terms Value Help" sap:QuickInfo="Available payment terms for RFQ" sap:content-version="1" sap:label="Payment Terms">
+                <Key>
+                    <PropertyRef Name="Zterm"/>
+                </Key>
+                <Property Name="Zterm" Type="Edm.String" MaxLength="4" Nullable="false" sap:Label="Payment Terms Code" sap:QuickInfo="Payment terms identifier" sap:display-format="UpperCase" sap:label="Payment terms" sap:quickinfo="Terms of payment key"/>
+                <Property Name="Vtext" Type="Edm.String" MaxLength="30" sap:Label="Terms Description" sap:QuickInfo="Payment terms description" sap:label="Description" sap:quickinfo="Description of terms of payment"/>
+            </EntityType>
+            <EntityType Name="ZC_AISP_PLANT_VH" sap:Label="Plant Value Help" sap:QuickInfo="Plant codes and descriptions" sap:content-version="1" sap:label="Valuehelp for Plant">
+                <Key>
+                    <PropertyRef Name="Werks"/>
+                </Key>
+                <Property Name="Werks" Type="Edm.String" MaxLength="4" Nullable="false" sap:Label="Plant Code" sap:QuickInfo="Plant identifier code" sap:display-format="UpperCase" sap:label="Plant"/>
+                <Property Name="Name1" Type="Edm.String" MaxLength="30" sap:Label="Plant Name" sap:QuickInfo="Plant name or description" sap:label="Name 1" sap:quickinfo="Name"/>
+            </EntityType>
+            <EntityType Name="ZC_AISP_PURCHASEGROUP_VH" sap:Label="Purchase Group Value Help" sap:QuickInfo="Purchasing group information" sap:content-version="1" sap:label="Valuehelp for Purchase Group">
+                <Key>
+                    <PropertyRef Name="Ekgrp"/>
+                </Key>
+                <Property Name="Ekgrp" Type="Edm.String" MaxLength="3" Nullable="false" sap:Label="Purchase Group Code" sap:QuickInfo="Purchasing group identifier" sap:display-format="UpperCase" sap:label="Purchasing Group"/>
+                <Property Name="Eknam" Type="Edm.String" MaxLength="18" sap:Label="Group Name" sap:QuickInfo="Purchasing group name" sap:label="Description p. group" sap:quickinfo="Description of purchasing group"/>
+            </EntityType>
+            <EntityType Name="ZC_AISP_PURCHASEORG_VH" sap:Label="Purchase Organization Value Help" sap:QuickInfo="Purchasing organization codes" sap:content-version="1" sap:label="Valuehelp for Purchase Organization">
+                <Key>
+                    <PropertyRef Name="Ekorg"/>
+                </Key>
+                <Property Name="Ekorg" Type="Edm.String" MaxLength="4" Nullable="false" sap:Label="Purchase Org Code" sap:QuickInfo="Purchasing organization identifier" sap:display-format="UpperCase" sap:label="Purch. organization" sap:quickinfo="Purchasing organization"/>
+                <Property Name="Ekotx" Type="Edm.String" MaxLength="20" sap:Label="Org Description" sap:QuickInfo="Purchasing organization description" sap:label="Description" sap:quickinfo="Description of purchasing organization"/>
+            </EntityType>
+            <EntityType Name="ZC_AISP_VENDORDETAILS_VH" sap:Label="Vendor Details Value Help" sap:QuickInfo="Vendor information for RFQ suppliers" sap:content-version="1" sap:label="Valuehelp for Supplier Details">
+                <Key>
+                    <PropertyRef Name="Lifnr"/>
+                </Key>
+                <Property Name="Lifnr" Type="Edm.String" MaxLength="10" Nullable="false" sap:Label="Vendor Number" sap:QuickInfo="Vendor identifier code" sap:display-format="UpperCase" sap:label="Supplier" sap:quickinfo="Account Number of Supplier"/>
+                <Property Name="Country" Type="Edm.String" MaxLength="3" sap:Label="Country" sap:QuickInfo="Vendor country code" sap:display-format="UpperCase" sap:label="Country/Region Key"/>
+                <Property Name="VendorName" Type="Edm.String" MaxLength="35" sap:Label="Vendor Name" sap:QuickInfo="Vendor business name" sap:label="Name" sap:quickinfo="Name 1"/>
+                <Property Name="City" Type="Edm.String" MaxLength="35" sap:Label="City" sap:QuickInfo="Vendor city location" sap:label="City"/>
+                <Property Name="PostalCode" Type="Edm.String" MaxLength="10" sap:Label="Postal Code" sap:QuickInfo="Vendor postal code" sap:display-format="UpperCase" sap:label="Postal Code"/>
+                <Property Name="Street" Type="Edm.String" MaxLength="35" sap:Label="Street" sap:QuickInfo="Vendor street address" sap:label="Street" sap:quickinfo="Street and House Number"/>
+                <Property Name="Adrnr" Type="Edm.String" MaxLength="10" sap:Label="Address Number" sap:QuickInfo="Vendor address number" sap:display-format="UpperCase" sap:label="Address"/>
+                <Property Name="VendorEmail" Type="Edm.String" MaxLength="241" sap:Label="Vendor Email" sap:QuickInfo="Vendor contact email" sap:label="E-Mail Address"/>
+                <Property Name="VendorAccGroup" Type="Edm.String" MaxLength="4" sap:Label="Vendor Account Group" sap:QuickInfo="Vendor account group classification" sap:display-format="UpperCase" sap:label="Account group" sap:quickinfo="Vendor account group"/>
+                <Property Name="Description" Type="Edm.String" MaxLength="30" sap:Label="Description" sap:QuickInfo="Additional vendor information" sap:label="Name" sap:quickinfo="Account Group Name"/>
+            </EntityType>
+            <EntityType Name="Currencies_VH" sap:Label="Currencies Value Help" sap:QuickInfo="Master data table for currency codes and descriptions">
+                <Key>
+                    <PropertyRef Name="WAERS"/>
+                </Key>
+                <Property Name="WAERS" Type="Edm.String" MaxLength="3" Nullable="false" sap:Label="Currency Code" sap:QuickInfo="Unique identifier for the currency (ISO 4217 or custom code)"/>
+                <Property Name="LTEXT" Type="Edm.String" MaxLength="100" sap:Label="Long Description" sap:QuickInfo="Complete descriptive name of the currency with additional context"/>
+                <Property Name="KTEXT" Type="Edm.String" MaxLength="50" sap:Label="Short Description" sap:QuickInfo="Abbreviated name or symbol representation of the currency"/>
+            </EntityType>
+            <EntityType Name="CompanyCodes_VH" sap:Label="Company Codes" sap:QuickInfo="Master data table for company codes and company information">
+                <Key>
+                    <PropertyRef Name="BUKRS"/>
+                </Key>
+                <Property Name="BUKRS" Type="Edm.String" MaxLength="4" Nullable="false" sap:Label="Company Code" sap:QuickInfo="Unique identifier code for the company or business unit"/>
+                <Property Name="BUTXT" Type="Edm.String" MaxLength="100" sap:Label="Company Name" sap:QuickInfo="Official registered name of the company or business unit"/>
+                <Property Name="ORT01" Type="Edm.String" MaxLength="100" sap:Label="City" sap:QuickInfo="City location of the company headquarters or registration"/>
+                <Property Name="WAERS" Type="Edm.String" MaxLength="3" sap:Label="Currency Key" sap:QuickInfo="Default currency code used by the company for financial operations"/>
+            </EntityType>
+            <EntityType Name="Status_VH" sap:Label="Quotation Statuses" sap:QuickInfo="Master data table for unique Quotation Statuses">
+                <Key>
+                    <PropertyRef Name="StatusKey"/>
+                </Key>
+                <Property Name="StatusKey" Type="Edm.String" Nullable="false" sap:Label="Status Key" sap:QuickInfo="Unique code for the Quotation Status"/>
+                <Property Name="StatusText" Type="Edm.String" sap:Label="Status Description" sap:QuickInfo="Description of the Quotation Status"/>
+            </EntityType>
+            <EntityType Name="SupplierStatusDistribution" sap:Label="Supplier Status Distribution" sap:QuickInfo="Distribution of supplier statuses for RFQ analysis">
+                <Key>
+                    <PropertyRef Name="RfqNumber"/>
+                </Key>
+                <Property Name="RfqNumber" Type="Edm.String" Nullable="false" sap:Label="Accepted Count" sap:QuickInfo="Number of suppliers who accepted the RFQ"/>
+                <Property Name="AcceptedCount" Type="Edm.Int32" sap:Label="Accepted Count" sap:QuickInfo="Number of suppliers who accepted the RFQ"/>
+                <Property Name="NotAcceptedCount" Type="Edm.Int32" sap:Label="Not Accepted Count" sap:QuickInfo="Number of suppliers who did not accept the RFQ"/>
+                <Property Name="SubmittedCount" Type="Edm.Int32" sap:Label="Submitted Count" sap:QuickInfo="Number of suppliers who submitted quotations"/>
+                <Property Name="RejectedCount" Type="Edm.Int32" sap:Label="Rejected Count" sap:QuickInfo="Number of suppliers who were rejected"/>
+                <Property Name="PendingCount" Type="Edm.Int32" sap:Label="Pending Count" sap:QuickInfo="Number of suppliers who have not seen Quotation"/>
+                <Property Name="SupplierDetails" Type="Collection(RFQService.SupplierStatusDistribution_SupplierDetails)" Nullable="false" sap:Label="Supplier Details" sap:QuickInfo="Detailed information about each supplier"/>
+                <Property Name="DeadlineDate" Type="Edm.DateTime" sap:Label="Deadline Date" sap:QuickInfo="Final date for quotation submission" sap:display-format="Date"/>
+                <Property Name="PublishedDate" Type="Edm.DateTime" sap:Label="Published Date" sap:QuickInfo="Date when the RFQ was published" sap:display-format="Date"/>
+            </EntityType>
+            <EntityType Name="ZC_RFQBasicDetails" sap:Label="RFQ Basic Details" sap:QuickInfo="Basic information for RFQ creation">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.Guid" Nullable="false" sap:Label="ID" sap:QuickInfo="Unique identifier for RFQ basic details"/>
+                <Property Name="Waers" Type="Edm.String" MaxLength="5" sap:Label="Currency" sap:QuickInfo="Currency code for the RFQ"/>
+                <Property Name="Zterm" Type="Edm.String" MaxLength="4" sap:Label="Payment Terms" sap:QuickInfo="Payment terms code"/>
+                <Property Name="Inco1" Type="Edm.String" MaxLength="3" sap:Label="Incoterms" sap:QuickInfo="Incoterms code"/>
+                <Property Name="CompanyCode" Type="Edm.String" MaxLength="4" sap:Label="Company Code" sap:QuickInfo="Company code identifier"/>
+                <Property Name="Ekorg" Type="Edm.String" MaxLength="4" sap:Label="Purchasing Organization" sap:QuickInfo="Purchasing organization code"/>
+                <Property Name="Ekgrp" Type="Edm.String" MaxLength="3" sap:Label="Purchasing Group" sap:QuickInfo="Purchasing group code"/>
+                <Property Name="ProjectName" Type="Edm.String" MaxLength="100" sap:Label="Project Name" sap:QuickInfo="Name of the RFQ project"/>
+                <Property Name="Reference" Type="Edm.String" MaxLength="100" sap:Label="Reference" sap:QuickInfo="Reference information for the RFQ"/>
+                <Property Name="Deadline" Type="Edm.DateTime" sap:Label="Deadline" sap:QuickInfo="RFQ submission deadline" sap:display-format="Date"/>
+            </EntityType>
+            <EntityType Name="ZC_RFQItemDetails" sap:Label="RFQ Item Details" sap:QuickInfo="Detailed information for RFQ line items">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.Guid" Nullable="false" sap:Label="ID" sap:QuickInfo="Unique identifier for item details"/>
+                <Property Name="ItemNo" Type="Edm.Int32" sap:Label="Item Number" sap:QuickInfo="Line item number"/>
+                <Property Name="Matnr" Type="Edm.String" MaxLength="18" sap:Label="Material Number" sap:QuickInfo="Material identifier code"/>
+                <Property Name="Description" Type="Edm.String" sap:Label="Description" sap:QuickInfo="Item description"/>
+                <Property Name="Maktx" Type="Edm.String" sap:Label="Material Description" sap:QuickInfo="Material name or description"/>
+                <Property Name="Werks" Type="Edm.String" MaxLength="4" sap:Label="Plant Code" sap:QuickInfo="Plant identifier"/>
+                <Property Name="Name1" Type="Edm.String" sap:Label="Plant Name" sap:QuickInfo="Plant description"/>
+                <Property Name="quantity" Type="Edm.Decimal" Precision="15" Scale="3" sap:Label="Quantity" sap:QuickInfo="Requested quantity"/>
+                <Property Name="UnitOfMeasure" Type="Edm.String" MaxLength="6" sap:Label="Unit of Measure" sap:QuickInfo="Measurement unit"/>
+                <Property Name="DeliveryDate" Type="Edm.DateTime" sap:Label="Delivery Date" sap:QuickInfo="Expected delivery date" sap:display-format="Date"/>
+            </EntityType>
+            <EntityType Name="ZC_RFQSupplierDetails" sap:Label="RFQ Supplier Details" sap:QuickInfo="Supplier information for RFQ">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.Guid" Nullable="false" sap:Label="ID" sap:QuickInfo="Unique identifier for supplier details"/>
+                <Property Name="Lifnr" Type="Edm.String" MaxLength="10" sap:Label="Vendor Number" sap:QuickInfo="Supplier identifier code"/>
+                <Property Name="VendorName" Type="Edm.String" sap:Label="Vendor Name" sap:QuickInfo="Supplier business name"/>
+            </EntityType>
+            <EntityType Name="RFQProcessFlows" sap:Label="RFQ Process Flows" sap:QuickInfo="Workflow tracking for RFQ processes">
+                <Key>
+                    <PropertyRef Name="WorkFlowID"/>
+                </Key>
+                <Property Name="WorkFlowID" Type="Edm.String" MaxLength="36" Nullable="false" sap:Label="Workflow ID" sap:QuickInfo="Unique workflow identifier"/>
+                <Property Name="RFQNumber" Type="Edm.String" MaxLength="36" sap:Label="RFQ Number" sap:QuickInfo="RFQ identifier number"/>
+                <Property Name="QuotationDeadline" Type="Edm.DateTimeOffset" sap:Label="Quotation Deadline" sap:QuickInfo="Deadline for quotation submission"/>
+                <Property Name="CreatedBy" Type="Edm.String" MaxLength="255" sap:Label="Created By" sap:QuickInfo="User who created the workflow"/>
+                <Property Name="Suppliers" Type="Collection(RFQService.SuppliersDetails)" Nullable="false" sap:Label="Created At" sap:QuickInfo="Workflow creation timestamp"/>
+                <Property Name="CreatedAt" Type="Edm.DateTimeOffset" sap:Label="Created At" sap:QuickInfo="Workflow creation timestamp"/>
+                <Property Name="isAwarded" Type="Edm.Boolean" sap:Label="Is Awarded" sap:QuickInfo="Indicates if RFQ has been awarded"/>
+                <Property Name="AwardedDate" Type="Edm.DateTimeOffset" sap:Label="Awarded Date" sap:QuickInfo="Date when RFQ was awarded"/>
+                <Property Name="purchaseOrderCreated" Type="Edm.Boolean" sap:Label="Purchase Order Created" sap:QuickInfo="Indicates if purchase order was created"/>
+                <Property Name="purchaseOrderNumber" Type="Edm.String" MaxLength="10" sap:Label="Purchase Order Number" sap:QuickInfo="Purchase order reference number"/>
+            </EntityType>
+            <EntityType Name="RFQSuppliers" sap:Label="RFQ Suppliers" sap:QuickInfo="Workflow tracking for RFQ processes">
+                <Key>
+                    <PropertyRef Name="RfqNumber"/>
+                    <PropertyRef Name="Bidder"/>
+                </Key>
+                <Property Name="RfqNumber" Type="Edm.String" MaxLength="10" Nullable="false" sap:Label="RFQ Number" sap:QuickInfo="Request for Quotation Number"/>
+                <Property Name="Bidder" Type="Edm.String" MaxLength="10" Nullable="false" sap:Label="Bidder ID" sap:QuickInfo="Supplier/Bidder Identification Number"/>
+                <Property Name="Email" Type="Edm.String" MaxLength="100" sap:Label="Supplier Email" sap:QuickInfo="Email of the Supplier/Bidder"/>
+                <Property Name="SupplierQuotation" Type="Edm.String" MaxLength="20" sap:Label="Supplier Quotation" sap:QuickInfo="Quotation Number provided by Supplier"/>
+                <Property Name="QuotationValue" Type="Edm.Decimal" Precision="15" Scale="2" sap:Label="Total Quotation Value" sap:QuickInfo="Total value of the quotation in specified currency"/>
+                <Property Name="TOTAL_SCORE" Type="Edm.Decimal" Precision="5" Scale="2" sap:Label="Total Score" sap:QuickInfo="Overall score based on questionnaire responses"/>
+                <Property Name="MaterialCount" Type="Edm.Int32" sap:Label="Material Count" sap:QuickInfo="Number of materials/items in the quotation"/>
+                <Property Name="Currency" Type="Edm.String" MaxLength="5" sap:Label="Currency" sap:QuickInfo="Currency used for quotation"/>
+                <Property Name="IsAwarded" Type="Edm.Boolean" sap:Label="Is Awarded" sap:QuickInfo="Indicates if this supplier has been awarded"/>
+                <Property Name="RfqAwarded" Type="Edm.Boolean" sap:Label="RFQ Awarded" sap:QuickInfo="Indicates if the entire RFQ has been awarded"/>
+                <Property Name="SupplierStatus" Type="Edm.String" MaxLength="20" sap:Label="Supplier Status" sap:QuickInfo="Current status of the supplier quotation"/>
+                <Property Name="CreatedDate" Type="Edm.DateTimeOffset" sap:Label="Created Date" sap:QuickInfo="Date when the quotation was created"/>
+                <Property Name="LastUpdated" Type="Edm.DateTimeOffset" sap:Label="Last Updated" sap:QuickInfo="Date when the quotation was last updated"/>
+                <Property Name="Items" Type="Collection(RFQService.RFQSuppliers_Items)" Nullable="false" sap:Label="Items" sap:QuickInfo="List of materials/items in the quotation"/>
+            </EntityType>
+            <EntityType Name="RFQCreationLogs" sap:Label="RFQ Creation Logs" sap:QuickInfo="Supplier information for RFQ">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="rfqNumber" Type="Edm.String" MaxLength="36" sap:Label="RFQ Number" sap:QuickInfo="RFQ identifier"/>
+                <Property Name="status" Type="Edm.String" MaxLength="20" sap:Label="Status" sap:QuickInfo="Creation status"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255" sap:Label="Created By" sap:QuickInfo="User who performed the action"/>
+                <Property Name="itemsCount" Type="Edm.Int32" sap:Label="Items Count" sap:QuickInfo="Number of items in the RFQ"/>
+                <Property Name="suppliersCount" Type="Edm.Int32" sap:Label="Suppliers Count" sap:QuickInfo="Number of suppliers in the RFQ"/>
+            </EntityType>
+            <ComplexType Name="RFQItemsData" sap:Label="RFQ Items Data" sap:QuickInfo="Structure for RFQ line item information">
+                <Property Name="ItemNo" Type="Edm.String" sap:Label="Item Number" sap:QuickInfo="Unique identifier for the item line"/>
+                <Property Name="MaterialNo" Type="Edm.String" sap:Label="Material Number" sap:QuickInfo="Unique identifier for the material"/>
+                <Property Name="MaterialDesc" Type="Edm.String" sap:Label="Material Description" sap:QuickInfo="Description of the material or service"/>
+                <Property Name="LotType" Type="Edm.String" sap:Label="Lot Type" sap:QuickInfo="Material Group"/>
+                <Property Name="PlantCode" Type="Edm.String" sap:Label="Plant Code" sap:QuickInfo="Plant or facility code"/>
+                <Property Name="UnitOfMeasure" Type="Edm.String" sap:Label="Unit of Measure" sap:QuickInfo="Measurement unit for the item"/>
+                <Property Name="Quantity" Type="Edm.String" sap:Label="Quantity" sap:QuickInfo="Requested quantity"/>
+                <Property Name="DeliveryDate" Type="Edm.DateTime" sap:Label="Delivery Date" sap:QuickInfo="Expected delivery date" sap:display-format="Date"/>
+                <Property Name="ExpectedServicePeriodStart" Type="Edm.DateTime" sap:Label="Expected Service Period Start" sap:QuickInfo="Start date for service period" sap:display-format="Date"/>
+                <Property Name="ExpectedServicePeriodEnd" Type="Edm.DateTime" sap:Label="Expected Service Period End" sap:QuickInfo="End date for service period" sap:display-format="Date"/>
+            </ComplexType>
+            <ComplexType Name="RFQSuppliersData" sap:Label="RFQ Suppliers Data" sap:QuickInfo="Structure for supplier information in RFQ">
+                <Property Name="SupplierCode" Type="Edm.String" sap:Label="Supplier Code" sap:QuickInfo="Unique supplier identifier"/>
+                <Property Name="SupplierName" Type="Edm.String" sap:Label="Supplier Name" sap:QuickInfo="Name of the supplier"/>
+            </ComplexType>
+            <ComplexType Name="SuppliersDetails" sap:Label="RFQ Suppliers Data" sap:QuickInfo="Structure for supplier information in RFQ">
+                <Property Name="SupplierCode" Type="Edm.String" sap:Label="Supplier Code" sap:QuickInfo="Unique supplier identifier"/>
+                <Property Name="SupplierName" Type="Edm.String" sap:Label="Supplier Name" sap:QuickInfo="Name of the supplier"/>
+                <Property Name="Status" Type="Edm.String" sap:Label="Supplier Name" sap:QuickInfo="Name of the supplier"/>
+                <Property Name="SupplierQuotation" Type="Edm.String" sap:Label="Quotation Number" sap:QuickInfo="Quotation Number for awarded RFQ"/>
+                <Property Name="QuotationCreationDate" Type="Edm.DateTime" sap:Label="Quotation Creation Date" sap:QuickInfo="Date when Quotation Number was generated" sap:display-format="Date"/>
+                <Property Name="LastUpdated" Type="Edm.DateTime" sap:Label="Last Updated On" sap:QuickInfo="Last update timestamp" sap:display-format="Date"/>
+            </ComplexType>
+            <ComplexType Name="SupplierStatusDistribution_SupplierDetails" sap:Label="Supplier Details" sap:QuickInfo="Detailed information about each supplier">
+                <Property Name="Bidder" Type="Edm.String" sap:Label="Bidder" sap:QuickInfo="Supplier identifier code"/>
+                <Property Name="VendorName" Type="Edm.String" sap:Label="Vendor Name" sap:QuickInfo="Name of the supplier/vendor"/>
+                <Property Name="VendorEmail" Type="Edm.String" sap:Label="Vendor Email" sap:QuickInfo="Email address of the vendor"/>
+                <Property Name="VendorAccountGroup" Type="Edm.String" sap:Label="Vendor Account Group" sap:QuickInfo="Account group classification of the vendor"/>
+                <Property Name="VendorAccountGroupName" Type="Edm.String" sap:Label="Vendor Account Group Name" sap:QuickInfo="Name of the vendor account group"/>
+                <Property Name="Status" Type="Edm.String" sap:Label="Status" sap:QuickInfo="Current status of the supplier response"/>
+            </ComplexType>
+            <ComplexType Name="RFQSuppliers_Items" sap:Label="Items" sap:QuickInfo="List of materials/items in the quotation">
+                <Property Name="ItemNumber" Type="Edm.String" MaxLength="10" sap:Label="Item Number" sap:QuickInfo="Line item number"/>
+                <Property Name="MaterialNo" Type="Edm.String" MaxLength="18" sap:Label="Material Number" sap:QuickInfo="Material identification number"/>
+                <Property Name="MaterialDesc" Type="Edm.String" MaxLength="40" sap:Label="Material Description" sap:QuickInfo="Description of the material"/>
+                <Property Name="Quantity" Type="Edm.Decimal" Precision="13" Scale="3" sap:Label="Quantity" sap:QuickInfo="Requested quantity"/>
+                <Property Name="Netpr" Type="Edm.Decimal" Precision="13" Scale="2" sap:Label="Unit Price" sap:QuickInfo="Price per unit"/>
+                <Property Name="Netwr" Type="Edm.Decimal" Precision="15" Scale="2" sap:Label="Total Price" sap:QuickInfo="Total price for the item"/>
+                <Property Name="UnitOfMeasure" Type="Edm.String" MaxLength="3" sap:Label="Unit of Measure" sap:QuickInfo="Measurement unit"/>
+                <Property Name="Plant" Type="Edm.String" MaxLength="4" sap:Label="Plant" sap:QuickInfo="Plant location"/>
+                <Property Name="PlantAddress" Type="Edm.String" MaxLength="100" sap:Label="Plant Address" sap:QuickInfo="Address of the plant"/>
+                <Property Name="LotType" Type="Edm.String" MaxLength="20" sap:Label="Lot Type" sap:QuickInfo="Type of lot/material group"/>
+            </ComplexType>
+            <ComplexType Name="return_RFQService_createRFQ">
+                <Property Name="rfqnumber" Type="Edm.String" sap:Label="RFQ Number" sap:QuickInfo="Generated RFQ number"/>
+                <Property Name="message" Type="Edm.String" sap:Label="Message" sap:QuickInfo="Operation result message"/>
+                <Property Name="success" Type="Edm.Boolean" sap:Label="Success" sap:QuickInfo="Operation success status"/>
+            </ComplexType>
+            <Annotations Target="RFQService.SuppliersDetails/Status" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Validation.AllowedValues">
+                    <Collection>
+                        <Record Type="Validation.AllowedValue">
+                            <Annotation Term="Core.SymbolicName" String="Pending"/>
+                            <PropertyValue Property="Value" String="Pending"/>
+                        </Record>
+                        <Record Type="Validation.AllowedValue">
+                            <Annotation Term="Core.SymbolicName" String="Awarded"/>
+                            <PropertyValue Property="Value" String="Awarded"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="RFQService.EntityContainer/SAP__Currencies" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Capabilities.DeleteRestrictions">
+                    <Record Type="Capabilities.DeleteRestrictionsType">
+                        <PropertyValue Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.InsertRestrictions">
+                    <Record Type="Capabilities.InsertRestrictionsType">
+                        <PropertyValue Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.UpdateRestrictions">
+                    <Record Type="Capabilities.UpdateRestrictionsType">
+                        <PropertyValue Property="Updatable" Bool="false"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="RFQService.EntityContainer/SAP__UnitsOfMeasure" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Capabilities.DeleteRestrictions">
+                    <Record Type="Capabilities.DeleteRestrictionsType">
+                        <PropertyValue Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.InsertRestrictions">
+                    <Record Type="Capabilities.InsertRestrictionsType">
+                        <PropertyValue Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.UpdateRestrictions">
+                    <Record Type="Capabilities.UpdateRestrictionsType">
+                        <PropertyValue Property="Updatable" Bool="false"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="RFQService.EntityContainer/ZC_AISP_COMPANYCODE_VH" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Capabilities.DeleteRestrictions">
+                    <Record Type="Capabilities.DeleteRestrictionsType">
+                        <PropertyValue Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.InsertRestrictions">
+                    <Record Type="Capabilities.InsertRestrictionsType">
+                        <PropertyValue Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.UpdateRestrictions">
+                    <Record Type="Capabilities.UpdateRestrictionsType">
+                        <PropertyValue Property="Updatable" Bool="false"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="RFQService.EntityContainer/ZC_AISP_CURRENCY_VH" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Capabilities.DeleteRestrictions">
+                    <Record Type="Capabilities.DeleteRestrictionsType">
+                        <PropertyValue Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.InsertRestrictions">
+                    <Record Type="Capabilities.InsertRestrictionsType">
+                        <PropertyValue Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.UpdateRestrictions">
+                    <Record Type="Capabilities.UpdateRestrictionsType">
+                        <PropertyValue Property="Updatable" Bool="false"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="RFQService.EntityContainer/ZC_AISP_MATERIALDETAILS_VH" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Capabilities.DeleteRestrictions">
+                    <Record Type="Capabilities.DeleteRestrictionsType">
+                        <PropertyValue Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.InsertRestrictions">
+                    <Record Type="Capabilities.InsertRestrictionsType">
+                        <PropertyValue Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.UpdateRestrictions">
+                    <Record Type="Capabilities.UpdateRestrictionsType">
+                        <PropertyValue Property="Updatable" Bool="false"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="RFQService.EntityContainer/ZC_AISP_INCOTERMS_VH" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Capabilities.DeleteRestrictions">
+                    <Record Type="Capabilities.DeleteRestrictionsType">
+                        <PropertyValue Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.InsertRestrictions">
+                    <Record Type="Capabilities.InsertRestrictionsType">
+                        <PropertyValue Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.UpdateRestrictions">
+                    <Record Type="Capabilities.UpdateRestrictionsType">
+                        <PropertyValue Property="Updatable" Bool="false"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="RFQService.EntityContainer/ZC_AISP_MATERIALGROUP_VH" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Capabilities.DeleteRestrictions">
+                    <Record Type="Capabilities.DeleteRestrictionsType">
+                        <PropertyValue Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.InsertRestrictions">
+                    <Record Type="Capabilities.InsertRestrictionsType">
+                        <PropertyValue Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.UpdateRestrictions">
+                    <Record Type="Capabilities.UpdateRestrictionsType">
+                        <PropertyValue Property="Updatable" Bool="false"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="RFQService.EntityContainer/ZC_AISP_PAYMENTTERMS_VH" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Capabilities.DeleteRestrictions">
+                    <Record Type="Capabilities.DeleteRestrictionsType">
+                        <PropertyValue Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.InsertRestrictions">
+                    <Record Type="Capabilities.InsertRestrictionsType">
+                        <PropertyValue Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.UpdateRestrictions">
+                    <Record Type="Capabilities.UpdateRestrictionsType">
+                        <PropertyValue Property="Updatable" Bool="false"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="RFQService.EntityContainer/ZC_AISP_PLANT_VH" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Capabilities.DeleteRestrictions">
+                    <Record Type="Capabilities.DeleteRestrictionsType">
+                        <PropertyValue Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.InsertRestrictions">
+                    <Record Type="Capabilities.InsertRestrictionsType">
+                        <PropertyValue Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.UpdateRestrictions">
+                    <Record Type="Capabilities.UpdateRestrictionsType">
+                        <PropertyValue Property="Updatable" Bool="false"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="RFQService.EntityContainer/ZC_AISP_PURCHASEGROUP_VH" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Capabilities.DeleteRestrictions">
+                    <Record Type="Capabilities.DeleteRestrictionsType">
+                        <PropertyValue Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.InsertRestrictions">
+                    <Record Type="Capabilities.InsertRestrictionsType">
+                        <PropertyValue Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.UpdateRestrictions">
+                    <Record Type="Capabilities.UpdateRestrictionsType">
+                        <PropertyValue Property="Updatable" Bool="false"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="RFQService.EntityContainer/ZC_AISP_PURCHASEORG_VH" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Capabilities.DeleteRestrictions">
+                    <Record Type="Capabilities.DeleteRestrictionsType">
+                        <PropertyValue Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.InsertRestrictions">
+                    <Record Type="Capabilities.InsertRestrictionsType">
+                        <PropertyValue Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.UpdateRestrictions">
+                    <Record Type="Capabilities.UpdateRestrictionsType">
+                        <PropertyValue Property="Updatable" Bool="false"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="RFQService.EntityContainer/ZC_AISP_VENDORDETAILS_VH" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Capabilities.DeleteRestrictions">
+                    <Record Type="Capabilities.DeleteRestrictionsType">
+                        <PropertyValue Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.InsertRestrictions">
+                    <Record Type="Capabilities.InsertRestrictionsType">
+                        <PropertyValue Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.UpdateRestrictions">
+                    <Record Type="Capabilities.UpdateRestrictionsType">
+                        <PropertyValue Property="Updatable" Bool="false"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="RFQService.ZC_RFQBasicDetails/ID" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+            </Annotations>
+            <Annotations Target="RFQService.ZC_RFQItemDetails/ID" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+            </Annotations>
+            <Annotations Target="RFQService.ZC_RFQSupplierDetails/ID" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+            </Annotations>
+            <Annotations Target="RFQService.RFQCreationLogs/ID" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+            </Annotations>
+            <Annotations Target="RFQService.EntityContainer/createRFQ/RFQType" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Validation.AllowedValues">
+                    <Collection>
+                        <Record Type="Validation.AllowedValue">
+                            <Annotation Term="Core.SymbolicName" String="Material"/>
+                            <PropertyValue Property="Value" String="Material"/>
+                        </Record>
+                        <Record Type="Validation.AllowedValue">
+                            <Annotation Term="Core.SymbolicName" String="Service"/>
+                            <PropertyValue Property="Value" String="Service"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="RFQService.EntityContainer/AwardorRejectRFQ/NewStatus" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Validation.AllowedValues">
+                    <Collection>
+                        <Record Type="Validation.AllowedValue">
+                            <Annotation Term="Core.SymbolicName" String="Reject"/>
+                            <PropertyValue Property="Value" String="Reject"/>
+                        </Record>
+                        <Record Type="Validation.AllowedValue">
+                            <Annotation Term="Core.SymbolicName" String="Award"/>
+                            <PropertyValue Property="Value" String="Award"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="RFQService.SupplierStatusDistribution_SupplierDetails/Status" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Validation.AllowedValues">
+                    <Collection>
+                        <Record Type="Validation.AllowedValue">
+                            <Annotation Term="Core.SymbolicName" String="Accepted"/>
+                            <PropertyValue Property="Value" String="Accepted"/>
+                        </Record>
+                        <Record Type="Validation.AllowedValue">
+                            <Annotation Term="Core.SymbolicName" String="Not_Accepted"/>
+                            <PropertyValue Property="Value" String="Not_Accepted"/>
+                        </Record>
+                        <Record Type="Validation.AllowedValue">
+                            <Annotation Term="Core.SymbolicName" String="Pending"/>
+                            <PropertyValue Property="Value" String="Pending"/>
+                        </Record>
+                        <Record Type="Validation.AllowedValue">
+                            <Annotation Term="Core.SymbolicName" String="Submitted"/>
+                            <PropertyValue Property="Value" String="Submitted"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>
