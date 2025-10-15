@@ -52,7 +52,7 @@ sap.ui.define(
         //   const oSorter = new sap.ui.model.Sorter("EventStartDate", true);
         //   mBindingParams.sorter.push(oSorter);
         // },
-        
+
         onBeforeRebindTable: function (oEvent) {
           const oBindingParams = oEvent.getParameter("bindingParams");
 
@@ -121,84 +121,87 @@ sap.ui.define(
           }
         },
 
-        formatTimeRemaining: function (deadlineTimestamp) {
-          // Handle null/undefined/empty values
+        // formatTimeRemaining: function (deadlineTimestamp) {
+        //   console.log(deadlineTimestamp);
 
-          if (!deadlineTimestamp) {
-            return "No deadline set";
-          }
+        //   // Handle null/undefined/empty values
+        //   if (!deadlineTimestamp) {
+        //     return "No deadline set";
+        //   }
 
-          // Parse the timestamp whether it comes as string or number
-          let timestamp;
-          if (typeof deadlineTimestamp === "string") {
-            // Handle OData format "/Date(timestamp)/"
-            const match = deadlineTimestamp.match(/\d+/);
-            timestamp = match ? parseInt(match[0]) : null;
-          } else if (typeof deadlineTimestamp === "number") {
-            // Handle raw timestamp
-            timestamp = deadlineTimestamp;
-          } else if (deadlineTimestamp instanceof Date) {
-            // Handle Date object directly
-            timestamp = deadlineTimestamp.getTime();
-          }
+        //   // Parse the timestamp whether it comes as string or number
+        //   let timestamp;
+        //   if (typeof deadlineTimestamp === "string") {
+        //     // Handle OData format "/Date(timestamp)/"
+        //     const match = deadlineTimestamp.match(/\d+/);
+        //     timestamp = match ? parseInt(match[0]) : null;
+        //   } else if (typeof deadlineTimestamp === "number") {
+        //     // Handle raw timestamp
+        //     timestamp = deadlineTimestamp;
+        //   } else if (deadlineTimestamp instanceof Date) {
+        //     // Handle Date object directly
+        //     timestamp = deadlineTimestamp.getTime();
+        //   }
 
-          // If we couldn't parse a valid timestamp
-          if (!timestamp) {
-            return "Invalid deadline";
-          }
+        //   // If we couldn't parse a valid timestamp
+        //   if (!timestamp) {
+        //     return "Invalid deadline";
+        //   }
 
-          const deadlineDate = new Date(timestamp);
-          const now = new Date();
-          const diffMs = deadlineDate - now;
+        //   const deadlineDate = new Date(timestamp);
+        //   const now = new Date();
+        //   const diffMs = deadlineDate - now;
 
-          // If deadline has passed
-          if (diffMs <= 0) {
-            return "Deadline passed";
-          }
+        //   // If deadline has passed
+        //   if (diffMs <= 0) {
+        //     return "Deadline passed";
+        //   }
 
-          // Calculate time remaining
-          const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-          const diffHours = Math.floor(
-            (diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-          );
+        //   // Calculate time remaining
+        //   const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+        //   const diffHours = Math.floor(
+        //     (diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+        //   );
 
-          return `${diffDays}d ${diffHours}h remaining`;
-        },
+        //   return `${diffDays}d ${diffHours}h remaining`;
+        // },
 
-        formatTimeRemainingState: function (deadlineTimestamp) {
-          if (!deadlineTimestamp) {
-            return "None";
-          }
+        // formatTimeRemainingState: function (deadlineTimestamp) {
+        //   console.log(deadlineTimestamp);
+        //   if (!deadlineTimestamp) {
+        //     return "None";
+        //   }
 
-          // Parse the timestamp (same logic as above)
-          let timestamp;
-          if (typeof deadlineTimestamp === "string") {
-            const match = deadlineTimestamp.match(/\d+/);
-            timestamp = match ? parseInt(match[0]) : null;
-          } else if (typeof deadlineTimestamp === "number") {
-            timestamp = deadlineTimestamp;
-          } else if (deadlineTimestamp instanceof Date) {
-            timestamp = deadlineTimestamp.getTime();
-          }
+        //   // Parse the timestamp (same logic as above)
+        //   let timestamp;
+        //   if (typeof deadlineTimestamp === "string") {
+        //     const match = deadlineTimestamp.match(/\d+/);
+        //     timestamp = match ? parseInt(match[0]) : null;
+        //   } else if (typeof deadlineTimestamp === "number") {
+        //     timestamp = deadlineTimestamp;
+        //   } else if (deadlineTimestamp instanceof Date) {
+        //     timestamp = deadlineTimestamp.getTime();
+        //   }
 
-          if (!timestamp) {
-            return "None";
-          }
+        //   if (!timestamp) {
+        //     return "None";
+        //   }
 
-          const deadlineDate = new Date(timestamp);
-          const now = new Date();
-          const diffMs = deadlineDate - now;
+        //   const deadlineDate = new Date(timestamp);
+        //   const now = new Date();
+        //   const diffMs = deadlineDate - now;
 
-          if (diffMs <= 0) {
-            return "Error";
-          }
+        //   if (diffMs <= 0) {
+        //     return "Error";
+        //   }
 
-          const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+        //   const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+        //   console.log(diffDays);
 
-          if (diffDays > 3) return "Success";
-          if (diffDays > 1) return "Warning";
-          return "Error";
-        },
+        //   if (diffDays > 3) return "Success";
+        //   if (diffDays > 1) return "Warning";
+        //   return "Error";
+        // },
 
         calculateProgressPercentage: function (deadlineTimestamp) {
           if (!deadlineTimestamp) {
@@ -237,6 +240,102 @@ sap.ui.define(
           return Math.min(100, Math.max(0, Math.round(percentage)));
         },
 
+        showProgressIndicator: function (deadlineTimestamp) {
+          if (!deadlineTimestamp) {
+            return false;
+          }
+
+          const timestamp = this.parseTimestamp(deadlineTimestamp);
+          if (!timestamp) {
+            return false;
+          }
+
+          const deadlineDate = new Date(timestamp);
+          const now = new Date();
+          return deadlineDate > now;
+        },
+
+        showDeadlinePassedText: function (deadlineTimestamp) {
+          if (!deadlineTimestamp) {
+            return false;
+          }
+
+          const timestamp = this.parseTimestamp(deadlineTimestamp);
+          if (!timestamp) {
+            return false;
+          }
+
+          const deadlineDate = new Date(timestamp);
+          const now = new Date();
+          return deadlineDate <= now;
+        },
+
+        // Helper function to parse timestamp
+        parseTimestamp: function (deadlineTimestamp) {
+          if (!deadlineTimestamp) {
+            return null;
+          }
+
+          let timestamp;
+          if (typeof deadlineTimestamp === "string") {
+            const match = deadlineTimestamp.match(/\d+/);
+            timestamp = match ? parseInt(match[0]) : null;
+          } else if (typeof deadlineTimestamp === "number") {
+            timestamp = deadlineTimestamp;
+          } else if (deadlineTimestamp instanceof Date) {
+            timestamp = deadlineTimestamp.getTime();
+          }
+
+          return timestamp;
+        },
+
+        // Update your existing functions to use the helper
+        formatTimeRemaining: function (deadlineTimestamp) {
+          const timestamp = this.parseTimestamp(deadlineTimestamp);
+
+          if (!timestamp) {
+            return "No deadline set";
+          }
+
+          const deadlineDate = new Date(timestamp);
+          const now = new Date();
+          const diffMs = deadlineDate - now;
+
+          if (diffMs <= 0) {
+            return "Deadline passed"; // This won't be shown due to conditional visibility
+          }
+
+          const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+          const diffHours = Math.floor(
+            (diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+          );
+
+          return `${diffDays}d ${diffHours}h remaining`;
+        },
+
+        formatTimeRemainingState: function (deadlineTimestamp) {
+          const timestamp = this.parseTimestamp(deadlineTimestamp);
+
+          if (!timestamp) {
+            return "None";
+          }
+
+          const deadlineDate = new Date(timestamp);
+          const now = new Date();
+          const diffMs = deadlineDate - now;
+
+          if (diffMs <= 0) {
+            return "Error"; // This won't be shown due to conditional visibility
+          }
+
+          const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+          console.log(diffDays);
+
+          if (diffDays > 3) return "Success";
+          if (diffDays > 1) return "Warning";
+          return "Error";
+        },
+        
         formatDate: function (dateValue) {
           if (!dateValue || !(dateValue instanceof Date)) return "-";
           const day = String(dateValue.getDate()).padStart(2, "0");

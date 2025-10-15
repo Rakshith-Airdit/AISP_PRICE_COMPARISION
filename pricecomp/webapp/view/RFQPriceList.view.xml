@@ -13,15 +13,7 @@
 					<smartFilterBar:controlConfiguration>
 						<smartFilterBar:ControlConfiguration key="EventStartDate" index="1" label="Published Date" visibleInAdvancedArea="true" filterType="single" conditionType="{ module: 'sap.ui.comp.config.condition.DateRangeType'}" />
 						<smartFilterBar:ControlConfiguration key="EventEndDate" index="2" label="Deadline Date" visibleInAdvancedArea="true" filterType="single" conditionType="{ module: 'sap.ui.comp.config.condition.DateRangeType'}" />
-						<!-- <smartFilterBar:ControlConfiguration key="Status" index="3" filterType="multiple" label="Status" visibleInAdvancedArea="true">
-							<smartFilterBar:customControl>
-								<m:MultiComboBox id="statusFilterMultiComboBox" selectionChange="onStatusFilterChange">
-                                    <core:Item key="Action needed" text="Action needed"/>
-									<core:Item key="Open" text="Open"/>
-									<core:Item key="Completed" text="Completed"/>								
-                                </m:MultiComboBox>
-							</smartFilterBar:customControl>
-						</smartFilterBar:ControlConfiguration> -->
+						<!-- <smartFilterBar:ControlConfiguration key="Status" index="3" filterType="multiple" label="Status" visibleInAdvancedArea="true"><smartFilterBar:customControl><m:MultiComboBox id="statusFilterMultiComboBox" selectionChange="onStatusFilterChange"><core:Item key="Action needed" text="Action needed"/><core:Item key="Open" text="Open"/><core:Item key="Completed" text="Completed"/></m:MultiComboBox></smartFilterBar:customControl></smartFilterBar:ControlConfiguration> -->
 					</smartFilterBar:controlConfiguration>
 				</smartFilterBar:SmartFilterBar>
 			</DynamicPageHeader>
@@ -74,7 +66,11 @@
 								<m:Text text="{path:'EventStartDate', formatter:'.formatDate'}" />
 								<!-- <Record Type="UI.DataField"><PropertyValue Property="Value" Path="ReceivedQuotations"/><PropertyValue Property="Label" String="ReceivedQuotations"/></Record> -->
 								<m:Text text="{ReceivedQuotations}" />
-								<m:ProgressIndicator class="sapUiSmallMarginBottom" percentValue="{path:'EventEndDate', formatter:'.calculateProgressPercentage'}" displayValue="{path:'EventEndDate', formatter:'.formatTimeRemaining'}" showValue="true" state="{path:'EventEndDate', formatter:'.formatTimeRemainingState'}" width="300px" />
+								<!-- <m:ProgressIndicator class="sapUiSmallMarginBottom" percentValue="{path:'EventEndDate', formatter:'.calculateProgressPercentage'}" displayValue="{path:'EventEndDate', formatter:'.formatTimeRemaining'}" showValue="true" state="{path:'EventEndDate', formatter:'.formatTimeRemainingState'}" width="300px" /><m:ObjectStatus text="{Status}" state="{path:'Status',formatter:'.formatStatusState'}" inverted="true" class="noWrapText" /> -->
+								<m:VBox >
+									<m:ProgressIndicator visible="{path:'EventEndDate', formatter:'.showProgressIndicator'}" class="sapUiSmallMarginBottom" percentValue="{path:'EventEndDate', formatter:'.calculateProgressPercentage'}" displayValue="{path:'EventEndDate', formatter:'.formatTimeRemaining'}" showValue="true" state="{path:'EventEndDate', formatter:'.formatTimeRemainingState'}" width="300px" />
+									<m:ObjectStatus visible="{path:'EventEndDate', formatter:'.showDeadlinePassedText'}" text="Deadline Passed" state="Error" class="deadlinePassedText"/>
+								</m:VBox>
 								<m:ObjectStatus text="{Status}" state="{path:'Status',formatter:'.formatStatusState'}" inverted="true" class="noWrapText" />
 							</m:cells>
 						</m:ColumnListItem>
